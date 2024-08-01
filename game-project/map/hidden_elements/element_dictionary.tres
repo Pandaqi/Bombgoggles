@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ElementDictionary" load_steps=3 format=3 uid="uid://bvgm5opigfy2u"]
+
+[ext_resource type="Script" path="res://map/hidden_elements/element_dictionary.gd" id="1_aw1la"]
+[ext_resource type="Resource" uid="uid://bd1s0u8bbs8bk" path="res://game_loop/globals/default_config.tres" id="1_suun1"]
+
+[resource]
+script = ExtResource("1_aw1la")
+config = ExtResource("1_suun1")
+keys = ["red", "green", "blue"]
+inverts = [false, false, false]
+types = [0, 1, 2]

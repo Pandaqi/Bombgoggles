@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="HiddenElementData" load_steps=2 format=3 uid="uid://dyjgwq5yanrxa"]
+
+[ext_resource type="Script" path="res://map/hidden_elements/types/hidden_element_data.gd" id="1_o4m0h"]
+
+[resource]
+script = ExtResource("1_o4m0h")
+min_num = 1.0
+max_num = 1.0
+frame = 3
+desc = "Instantly kills you."

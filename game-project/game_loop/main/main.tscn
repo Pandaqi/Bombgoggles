@@ -1,0 +1,237 @@
+[gd_scene load_steps=26 format=3 uid="uid://h73dtaf2hvjv"]
+
+[ext_resource type="Script" path="res://game_loop/main/camera.gd" id="1_2lnhs"]
+[ext_resource type="Script" path="res://map/map_modifier.gd" id="1_f7uwr"]
+[ext_resource type="Script" path="res://game_loop/main/main.gd" id="1_j0vto"]
+[ext_resource type="Script" path="res://game_loop/main/progression/pre_game.gd" id="2_1mkue"]
+[ext_resource type="Script" path="res://game_loop/main/progression/progression.gd" id="2_jii8f"]
+[ext_resource type="Resource" uid="uid://b0e6tj3a1ya0l" path="res://map/map_data.tres" id="2_m64j3"]
+[ext_resource type="Script" path="res://game_loop/main/progression/countdown.gd" id="3_o48rl"]
+[ext_resource type="Script" path="res://game_loop/globals/config_template.gd" id="4_1yixe"]
+[ext_resource type="Script" path="res://game_loop/main/progression/tutorial.gd" id="4_gp0gm"]
+[ext_resource type="Script" path="res://game_loop/main/progression/post_game.gd" id="4_lu74i"]
+[ext_resource type="Resource" uid="uid://bd1s0u8bbs8bk" path="res://game_loop/globals/default_config.tres" id="4_lus6n"]
+[ext_resource type="Texture2D" uid="uid://dj4pitryvi6el" path="res://icon.svg" id="4_unrtn"]
+[ext_resource type="AudioStream" uid="uid://blvc8osivw8ej" path="res://game_loop/main/progression/countdown_tick.ogg" id="5_jq6ps"]
+[ext_resource type="Theme" uid="uid://c0bfo1n4w7tgt" path="res://ui/default_theme.tres" id="6_pr3nm"]
+[ext_resource type="Script" path="res://players/players_modifier.gd" id="7_0wsgn"]
+[ext_resource type="Script" path="res://map/map_elements_spawner.gd" id="7_6gwbp"]
+[ext_resource type="FontFile" uid="uid://d3uqrrralaln4" path="res://ui/fonts/heading.ttf" id="7_twvnq"]
+[ext_resource type="Resource" uid="uid://1ivsxducksat" path="res://players/players_data.tres" id="8_8t3b4"]
+[ext_resource type="PackedScene" uid="uid://cda25ih28co4g" path="res://players/player/player.tscn" id="9_hux87"]
+[ext_resource type="Script" path="res://map/hidden_elements/element_dictionary_modifier.gd" id="11_fhbry"]
+[ext_resource type="Resource" uid="uid://bvgm5opigfy2u" path="res://map/hidden_elements/element_dictionary.tres" id="12_t6orm"]
+[ext_resource type="Resource" uid="uid://3sm3rb8i0v2y" path="res://game_loop/main/progression/progression_data.tres" id="18_6aeva"]
+
+[sub_resource type="Animation" id="Animation_pr4bm"]
+resource_name = "tutorial_popup"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -700), Vector2(0, 100), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_emxjb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -1200)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_so2gn"]
+_data = {
+"RESET": SubResource("Animation_emxjb"),
+"tutorial_popup": SubResource("Animation_pr4bm")
+}
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_j0vto")
+
+[node name="PreGame" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("2_1mkue")
+config = ExtResource("4_1yixe")
+
+[node name="Countdown" type="Control" parent="PreGame"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_o48rl")
+config = ExtResource("4_1yixe")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="PreGame/Countdown"]
+stream = ExtResource("5_jq6ps")
+
+[node name="ColorRect" type="ColorRect" parent="PreGame/Countdown"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="PreGame/Countdown"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="PreGame/Countdown/CenterContainer"]
+layout_mode = 2
+theme = ExtResource("6_pr3nm")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 24
+theme_override_fonts/font = ExtResource("7_twvnq")
+theme_override_font_sizes/font_size = 164
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Tutorial" type="Control" parent="PreGame"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1200.0
+offset_bottom = -1200.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_gp0gm")
+prog_data = ExtResource("18_6aeva")
+
+[node name="MarginContainer" type="MarginContainer" parent="PreGame/Tutorial"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="TextureRect" type="TextureRect" parent="PreGame/Tutorial/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("4_unrtn")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PreGame/Tutorial"]
+libraries = {
+"": SubResource("AnimationLibrary_so2gn")
+}
+
+[node name="Progression" type="Node" parent="."]
+script = ExtResource("2_jii8f")
+progression_data = ExtResource("18_6aeva")
+config = ExtResource("4_lus6n")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Progression"]
+process_mode = 3
+
+[node name="Timer" type="Timer" parent="Progression"]
+autostart = true
+
+[node name="PostGame" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("4_lu74i")
+prog_data = ExtResource("18_6aeva")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+process_mode = 3
+script = ExtResource("1_2lnhs")
+map_data = ExtResource("2_m64j3")
+config = ExtResource("4_lus6n")
+
+[node name="MapModifier" type="Node2D" parent="."]
+script = ExtResource("1_f7uwr")
+map_data = ExtResource("2_m64j3")
+elem_dict = ExtResource("12_t6orm")
+
+[node name="MapLayers" type="Node2D" parent="MapModifier"]
+
+[node name="Floor" type="Sprite2D" parent="MapModifier/MapLayers"]
+modulate = Color(0.194118, 0.474971, 0.0742175, 1)
+scale = Vector2(4.49219, 2.52344)
+texture = ExtResource("4_unrtn")
+centered = false
+
+[node name="Entities" type="Node2D" parent="MapModifier/MapLayers"]
+y_sort_enabled = true
+
+[node name="MapElementsSpawner" type="Node2D" parent="MapModifier"]
+script = ExtResource("7_6gwbp")
+map_data = ExtResource("2_m64j3")
+config = ExtResource("4_lus6n")
+elem_dict = ExtResource("12_t6orm")
+prog_data = ExtResource("18_6aeva")
+
+[node name="Timer" type="Timer" parent="MapModifier/MapElementsSpawner"]
+
+[node name="PlayersModifier" type="Node" parent="."]
+script = ExtResource("7_0wsgn")
+players_data = ExtResource("8_8t3b4")
+map_data = ExtResource("2_m64j3")
+player_scene = ExtResource("9_hux87")
+
+[node name="ElementDictionaryModifier" type="Node" parent="."]
+script = ExtResource("11_fhbry")
+elem_dict = ExtResource("12_t6orm")
+config = ExtResource("4_lus6n")
+
+[connection signal="timeout" from="Progression/Timer" to="Progression" method="_on_timer_timeout"]

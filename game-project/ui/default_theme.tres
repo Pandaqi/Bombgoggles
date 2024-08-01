@@ -1,0 +1,18 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://c0bfo1n4w7tgt"]
+
+[ext_resource type="StyleBox" uid="uid://b8vjpd0dvqqni" path="res://ui/nine_patch_box.tres" id="1_78lyg"]
+[ext_resource type="StyleBox" uid="uid://ckg8htfra7jso" path="res://ui/nine_patch_box_hover.tres" id="1_kibdt"]
+[ext_resource type="FontFile" uid="uid://cv7l4blntesl5" path="res://ui/fonts/body_regular.ttf" id="1_rcnvy"]
+[ext_resource type="FontFile" uid="uid://b7onu5gauygml" path="res://ui/fonts/body_italic.ttf" id="3_23pik"]
+
+[resource]
+default_font = ExtResource("1_rcnvy")
+Button/colors/font_color = Color(0.0741275, 0.00106323, 0.00029513, 1)
+Button/colors/font_hover_color = Color(0.168955, 0.000199947, 0.256978, 1)
+Button/styles/focus = ExtResource("1_kibdt")
+Button/styles/hover = ExtResource("1_kibdt")
+Button/styles/normal = ExtResource("1_78lyg")
+Button/styles/pressed = ExtResource("1_78lyg")
+Label/colors/font_color = Color(0, 0, 0, 1)
+RichTextLabel/fonts/italics_font = ExtResource("3_23pik")
+RichTextLabel/fonts/normal_font = ExtResource("1_rcnvy")

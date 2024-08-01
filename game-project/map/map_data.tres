@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="MapData" load_steps=3 format=3 uid="uid://b0e6tj3a1ya0l"]
+
+[ext_resource type="Script" path="res://map/map_data.gd" id="1_ffhy0"]
+[ext_resource type="Resource" uid="uid://bd1s0u8bbs8bk" path="res://game_loop/globals/default_config.tres" id="1_s63vo"]
+
+[resource]
+script = ExtResource("1_ffhy0")
+config = ExtResource("1_s63vo")

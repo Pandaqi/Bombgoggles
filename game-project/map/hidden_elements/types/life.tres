@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="HiddenElementData" load_steps=2 format=3 uid="uid://4v84f2bue0ny"]
+
+[ext_resource type="Script" path="res://map/hidden_elements/types/hidden_element_data.gd" id="1_cj2yp"]
+
+[resource]
+script = ExtResource("1_cj2yp")
+min_num = 1.0
+max_num = 1.0
+frame = 1
+desc = "Gives you 1 life."

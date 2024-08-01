@@ -1,0 +1,53 @@
+[gd_scene load_steps=13 format=3 uid="uid://cda25ih28co4g"]
+
+[ext_resource type="Texture2D" uid="uid://dj4pitryvi6el" path="res://icon.svg" id="1_qgjhv"]
+[ext_resource type="Script" path="res://players/player/player.gd" id="1_tayp3"]
+[ext_resource type="Script" path="res://players/player/modules/mover.gd" id="3_6q5kn"]
+[ext_resource type="Script" path="res://players/player/modules/status.gd" id="3_e3j70"]
+[ext_resource type="Script" path="res://players/player/modules/input.gd" id="4_6fgi4"]
+[ext_resource type="Resource" uid="uid://b0e6tj3a1ya0l" path="res://map/map_data.tres" id="4_p7mfw"]
+[ext_resource type="Script" path="res://players/player/modules/interactor.gd" id="6_8brq6"]
+[ext_resource type="Script" path="res://players/player/modules/lives.gd" id="7_qslg8"]
+[ext_resource type="Script" path="res://players/player/modules/goggles.gd" id="8_1iccm"]
+[ext_resource type="Resource" uid="uid://bd1s0u8bbs8bk" path="res://game_loop/globals/default_config.tres" id="8_v6xh1"]
+[ext_resource type="Resource" uid="uid://3sm3rb8i0v2y" path="res://game_loop/main/progression/progression_data.tres" id="9_fnsab"]
+[ext_resource type="Resource" uid="uid://bvgm5opigfy2u" path="res://map/hidden_elements/element_dictionary.tres" id="10_ufqhj"]
+
+[node name="Player" type="Node2D"]
+script = ExtResource("1_tayp3")
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Visuals"]
+position = Vector2(0, -63)
+scale = Vector2(0.44, 1)
+texture = ExtResource("1_qgjhv")
+
+[node name="Status" type="Node" parent="."]
+script = ExtResource("3_e3j70")
+
+[node name="Mover" type="Node" parent="."]
+script = ExtResource("3_6q5kn")
+config = ExtResource("8_v6xh1")
+map_data = ExtResource("4_p7mfw")
+
+[node name="Input" type="Node" parent="."]
+script = ExtResource("4_6fgi4")
+
+[node name="InteractorHidden" type="Node" parent="."]
+script = ExtResource("6_8brq6")
+config = ExtResource("8_v6xh1")
+map_data = ExtResource("4_p7mfw")
+elem_dict = ExtResource("10_ufqhj")
+prog_data = ExtResource("9_fnsab")
+
+[node name="Lives" type="Node" parent="."]
+script = ExtResource("7_qslg8")
+config = ExtResource("8_v6xh1")
+map_data = ExtResource("4_p7mfw")
+
+[node name="Goggles" type="Node" parent="."]
+script = ExtResource("8_1iccm")
+map_data = ExtResource("4_p7mfw")
+config = ExtResource("8_v6xh1")
+elem_dict = ExtResource("10_ufqhj")

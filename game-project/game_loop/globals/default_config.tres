@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ConfigTemplate" load_steps=2 format=3 uid="uid://bd1s0u8bbs8bk"]
+
+[ext_resource type="Script" path="res://game_loop/globals/config_template.gd" id="1_08f7a"]
+
+[resource]
+script = ExtResource("1_08f7a")
+bombs_come_in_pairs = false

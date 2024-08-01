@@ -1,0 +1,80 @@
+[gd_scene load_steps=7 format=3 uid="uid://chs7jt4nst5qn"]
+
+[ext_resource type="Script" path="res://game_loop/input_select/input_select.gd" id="1_3h3hg"]
+[ext_resource type="PackedScene" uid="uid://co18g8203lcjm" path="res://ui/player_select.tscn" id="1_xjqfa"]
+[ext_resource type="Texture2D" uid="uid://belshgxot58hl" path="res://ui/nine_patch_atlas.tres" id="2_51xba"]
+[ext_resource type="AudioStream" uid="uid://4o1ixpt7t3bk" path="res://game_loop/main/sound_fx/explosion_medium.ogg" id="3_l2fd0"]
+[ext_resource type="Theme" uid="uid://c0bfo1n4w7tgt" path="res://ui/default_theme.tres" id="3_sy0ik"]
+[ext_resource type="FontFile" uid="uid://d3uqrrralaln4" path="res://ui/fonts/heading.ttf" id="4_0wjhw"]
+
+[node name="InputSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3h3hg")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Heading" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="VBoxContainer/Heading"]
+layout_mode = 2
+texture = ExtResource("2_51xba")
+patch_margin_left = 64
+patch_margin_top = 64
+patch_margin_right = 64
+patch_margin_bottom = 64
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Heading"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="Label" type="Label" parent="VBoxContainer/Heading/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("3_sy0ik")
+theme_override_fonts/font = ExtResource("4_0wjhw")
+theme_override_font_sizes/font_size = 48
+text = "Player Login"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="PlayerSelect1" parent="VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("1_xjqfa")]
+layout_mode = 2
+
+[node name="PlayerSelect2" parent="VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("1_xjqfa")]
+layout_mode = 2
+
+[node name="PlayerSelect3" parent="VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("1_xjqfa")]
+layout_mode = 2
+
+[node name="PlayerSelect4" parent="VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("1_xjqfa")]
+layout_mode = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_l2fd0")
+volume_db = -15.0
