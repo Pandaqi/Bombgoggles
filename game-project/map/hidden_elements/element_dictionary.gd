@@ -3,12 +3,15 @@ class_name ElementDictionary extends Resource
 @export var config : ConfigTemplate
 @export var keys := ["red", "green", "blue"]
 @export var inverts := [false, false, false]
-@export var types := [
+@export var types : Array[HiddenElement.HiddenElementType] = [
 	HiddenElement.HiddenElementType.BOMB, 
 	HiddenElement.HiddenElementType.SPEED, 
 	HiddenElement.HiddenElementType.LIFE
 ]
 @export var data_per_type : Array[HiddenElementData] = []
+
+func type_is_in_game(tp:HiddenElement.HiddenElementType) -> bool:
+	return types.has(tp)
 
 func reload_data():
 	data_per_type = []
@@ -37,3 +40,7 @@ func get_element_range(tp:HiddenElement.HiddenElementType) -> float:
 
 func get_data_for_type(tp:HiddenElement.HiddenElementType) -> HiddenElementData:
 	return data_per_type[get_index_of_type(tp)]
+
+func get_color_for_type(tp:HiddenElement.HiddenElementType) -> Color:
+	var color_key : String = keys[get_index_of_type(tp)]
+	return config.goggle_colors[color_key]

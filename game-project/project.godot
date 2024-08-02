@@ -19,7 +19,13 @@ config/icon="res://icon.svg"
 GSignalBus="*res://game_loop/globals/GSignalBus.gd"
 GInput="*res://input/GInput.gd"
 
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+anti_aliasing/quality/screen_space_aa=1

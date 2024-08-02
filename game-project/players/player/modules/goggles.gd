@@ -5,18 +5,49 @@ class_name ModuleGoggles extends Node
 @export var elem_dict : ElementDictionary
 @onready var entity : Player = get_parent()
 
-# @TODO: Visuals should listen to this and set the new values
+var battery : ModuleBattery
+var locked := false
+var haywire := false
+var active := false
+
 signal slots_updated(new_vals:Dictionary)
+
+func activate(b:ModuleBattery) -> void:
+	active = true
+	battery = b
+	battery.battery_empty.connect(func(): set_locked(true))
+	battery.battery_charging.connect(func(): set_locked(false))
+
+func set_locked(l:bool) -> void:
+	# @TODO: some particles or permanent animation to signal this is the case
+	locked = l
 
 func _process(_dt:float) -> void:
 	check_distances()
 
 func check_distances() -> void:
+	if locked: return
+	
 	var elems := map_data.hidden_elements
-	var dict : Dictionary = {}
+	var list : Array[float] = []
 	for type in elem_dict.types:
-		dict[type] = convert_dist_to_ratio( get_dist_to_closest(elems, type) )
-	slots_updated.emit(dict)
+		var val := convert_dist_to_ratio( get_dist_to_closest(elems, type) )
+		
+		# battery is special => it shows your current battery power, not distance to such elements
+		if type == HiddenElement.HiddenElementType.BATTERY:
+			val = 1.0 - battery.get_ratio()
+		
+		# haywire just means it temporarily gives garbage data
+		if haywire: 
+			val = randf()
+		
+		# not active means everything responds with "nothing"
+		if not active:
+			val = 1.0
+		
+		list.append(val)
+		
+	slots_updated.emit(list)
 
 # 1.0 = as far away as possible, 0.0 = you're literally there
 func convert_dist_to_ratio(dist:float) -> float:

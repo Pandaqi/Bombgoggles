@@ -1,38 +1,171 @@
-[gd_scene load_steps=13 format=3 uid="uid://cda25ih28co4g"]
+[gd_scene load_steps=30 format=3 uid="uid://cda25ih28co4g"]
 
-[ext_resource type="Texture2D" uid="uid://dj4pitryvi6el" path="res://icon.svg" id="1_qgjhv"]
 [ext_resource type="Script" path="res://players/player/player.gd" id="1_tayp3"]
+[ext_resource type="Texture2D" uid="uid://d1hbyhc7hnmuy" path="res://game_loop/main/misc.webp" id="2_1t44u"]
+[ext_resource type="Texture2D" uid="uid://d1ty15luyqlsb" path="res://players/players.webp" id="2_evcef"]
+[ext_resource type="Script" path="res://players/player/modules/visuals.gd" id="2_rugyc"]
 [ext_resource type="Script" path="res://players/player/modules/mover.gd" id="3_6q5kn"]
 [ext_resource type="Script" path="res://players/player/modules/status.gd" id="3_e3j70"]
+[ext_resource type="PackedScene" uid="uid://cvrum2tkoht3o" path="res://players/goggle.tscn" id="4_5gh0s"]
 [ext_resource type="Script" path="res://players/player/modules/input.gd" id="4_6fgi4"]
 [ext_resource type="Resource" uid="uid://b0e6tj3a1ya0l" path="res://map/map_data.tres" id="4_p7mfw"]
 [ext_resource type="Script" path="res://players/player/modules/interactor.gd" id="6_8brq6"]
+[ext_resource type="Texture2D" uid="uid://ntedouxjn6jn" path="res://players/effects/fuzzy_circle.tres" id="6_hm636"]
+[ext_resource type="AudioStream" uid="uid://dxts1gplj6t84" path="res://players/effects/speed_change.ogg" id="7_qbles"]
 [ext_resource type="Script" path="res://players/player/modules/lives.gd" id="7_qslg8"]
 [ext_resource type="Script" path="res://players/player/modules/goggles.gd" id="8_1iccm"]
 [ext_resource type="Resource" uid="uid://bd1s0u8bbs8bk" path="res://game_loop/globals/default_config.tres" id="8_v6xh1"]
 [ext_resource type="Resource" uid="uid://3sm3rb8i0v2y" path="res://game_loop/main/progression/progression_data.tres" id="9_fnsab"]
 [ext_resource type="Resource" uid="uid://bvgm5opigfy2u" path="res://map/hidden_elements/element_dictionary.tres" id="10_ufqhj"]
+[ext_resource type="Resource" uid="uid://1ivsxducksat" path="res://players/players_data.tres" id="14_44p27"]
+[ext_resource type="PackedScene" uid="uid://bxkf2hkrb8o85" path="res://map/player_beacon/player_beacon.tscn" id="14_bvm66"]
+[ext_resource type="Script" path="res://players/player/modules/interactor_beacon.gd" id="14_nqox3"]
+[ext_resource type="PackedScene" uid="uid://bokunm4c2a34p" path="res://players/effects/explosion/explosion.tscn" id="15_2agn5"]
+[ext_resource type="AudioStream" uid="uid://dt2njgkuu465t" path="res://players/effects/life_change.ogg" id="19_ihwls"]
+[ext_resource type="AudioStream" uid="uid://dqdydq36mqiad" path="res://players/effects/battery.ogg" id="22_bw6n2"]
+[ext_resource type="Script" path="res://players/player/modules/battery.gd" id="22_rrv52"]
+[ext_resource type="AudioStream" uid="uid://dai4vjxxeyvnh" path="res://players/effects/battery_reverse.ogg" id="24_g4e00"]
+
+[sub_resource type="Gradient" id="Gradient_a7qjn"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Animation" id="Animation_w71mo"]
+resource_name = "move"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Body:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.201136, 0.399071, 0.567513, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.05, 0.95), Vector2(0.95, 1.05), Vector2(1.2, 0.8), Vector2(0.95, 1.05), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/Body:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.167802, 0.201136, 0.399071, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, -24), Vector2(0, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ach81"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Body:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/Body:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n73xa"]
+_data = {
+"RESET": SubResource("Animation_ach81"),
+"move": SubResource("Animation_w71mo")
+}
 
 [node name="Player" type="Node2D"]
 script = ExtResource("1_tayp3")
 
-[node name="Visuals" type="Node2D" parent="."]
-
-[node name="Sprite2D" type="Sprite2D" parent="Visuals"]
-position = Vector2(0, -63)
-scale = Vector2(0.44, 1)
-texture = ExtResource("1_qgjhv")
-
 [node name="Status" type="Node" parent="."]
 script = ExtResource("3_e3j70")
 
-[node name="Mover" type="Node" parent="."]
+[node name="Mover" type="Node2D" parent="."]
 script = ExtResource("3_6q5kn")
 config = ExtResource("8_v6xh1")
+prog_data = ExtResource("9_fnsab")
 map_data = ExtResource("4_p7mfw")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Mover"]
+position = Vector2(0, -39)
+amount = 12
+lifetime = 0.8
+randomness = 0.2
+texture = ExtResource("6_hm636")
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 40.0
+scale_amount_min = 0.08
+scale_amount_max = 0.28
+color_ramp = SubResource("Gradient_a7qjn")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Mover"]
+stream = ExtResource("7_qbles")
+max_distance = 5000.0
+
+[node name="Visuals" type="Node2D" parent="."]
+script = ExtResource("2_rugyc")
+elem_dict = ExtResource("10_ufqhj")
+
+[node name="Shadow" type="Sprite2D" parent="Visuals"]
+modulate = Color(0, 0, 0, 0.447059)
+position = Vector2(1.90735e-06, 1)
+scale = Vector2(1, 0.1)
+texture = ExtResource("2_1t44u")
+hframes = 8
+frame = 3
+
+[node name="Body" type="Sprite2D" parent="Visuals"]
+texture = ExtResource("2_evcef")
+centered = false
+offset = Vector2(-128, -256)
+hframes = 8
+
+[node name="Goggles" type="Node2D" parent="Visuals/Body"]
+position = Vector2(0, -4)
+
+[node name="Goggle0" parent="Visuals/Body/Goggles" instance=ExtResource("4_5gh0s")]
+position = Vector2(3.8147e-06, -184)
+scale = Vector2(0.45, 0.45)
+
+[node name="Goggle1" parent="Visuals/Body/Goggles" instance=ExtResource("4_5gh0s")]
+position = Vector2(-61, -64)
+scale = Vector2(0.45, 0.45)
+
+[node name="Goggle2" parent="Visuals/Body/Goggles" instance=ExtResource("4_5gh0s")]
+position = Vector2(61, -64)
+scale = Vector2(0.45, 0.45)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Visuals"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_n73xa")
+}
 
 [node name="Input" type="Node" parent="."]
 script = ExtResource("4_6fgi4")
+
+[node name="InteractorBeacon" type="Node" parent="."]
+script = ExtResource("14_nqox3")
+config = ExtResource("8_v6xh1")
+map_data = ExtResource("4_p7mfw")
 
 [node name="InteractorHidden" type="Node" parent="."]
 script = ExtResource("6_8brq6")
@@ -40,14 +173,38 @@ config = ExtResource("8_v6xh1")
 map_data = ExtResource("4_p7mfw")
 elem_dict = ExtResource("10_ufqhj")
 prog_data = ExtResource("9_fnsab")
+players_data = ExtResource("14_44p27")
+explosion_scene = ExtResource("15_2agn5")
 
-[node name="Lives" type="Node" parent="."]
+[node name="Timer" type="Timer" parent="InteractorHidden"]
+autostart = true
+
+[node name="Lives" type="Node2D" parent="."]
 script = ExtResource("7_qslg8")
+beacon_scene = ExtResource("14_bvm66")
 config = ExtResource("8_v6xh1")
 map_data = ExtResource("4_p7mfw")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Lives"]
+stream = ExtResource("19_ihwls")
+max_distance = 5000.0
 
 [node name="Goggles" type="Node" parent="."]
 script = ExtResource("8_1iccm")
 map_data = ExtResource("4_p7mfw")
 config = ExtResource("8_v6xh1")
 elem_dict = ExtResource("10_ufqhj")
+
+[node name="Battery" type="Node2D" parent="."]
+script = ExtResource("22_rrv52")
+elem_dict = ExtResource("10_ufqhj")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Battery"]
+stream = ExtResource("22_bw6n2")
+max_distance = 5000.0
+
+[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="Battery"]
+stream = ExtResource("24_g4e00")
+max_distance = 5000.0
+
+[connection signal="timeout" from="InteractorHidden/Timer" to="InteractorHidden" method="_on_timer_timeout"]

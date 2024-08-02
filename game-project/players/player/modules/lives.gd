@@ -1,33 +1,53 @@
-class_name ModuleLives extends Node
+class_name ModuleLives extends Node2D
 
 var lives := 0
 var connected_beacon : PlayerBeacon
-var beacon_scene # @TODO
+var player_num := -1
+@export var beacon_scene : PackedScene
 
 @export var config : ConfigTemplate
 @export var map_data : MapData
 
+@onready var entity : Player = get_parent()
+@onready var audio_player : AudioStreamPlayer2D = $AudioStreamPlayer2D
+
 signal lives_depleted()
 
-func activate(mm:MapModifier) -> void:
-	change_lives(config.lives_starting_num)
+func activate(n:int, mm:MapModifier) -> void:
+	player_num = n
 	create_beacon(mm)
+	change_lives(config.lives_starting_num)
 
 func drain() -> void:
 	change_lives(-lives)
 
-func change_lives(dl:int) -> void:
+func change_lives(dl:int) -> int:
+	var old_lives := lives
 	lives = clamp(lives + dl, 0, config.lives_max)
+	connected_beacon.update_lives(lives)
+	
+	if lives != old_lives:
+		var txt := "+ Life!" if dl >= 0 else "- Life!"
+		GSignalBus.feedback.emit(entity.get_position(), txt)
+		audio_player.pitch_scale = randf_range(0.9, 1.1)
+		audio_player.play()
 	
 	if lives <= 0:
 		lives_depleted.emit()
+	
+	return lives
 
 func create_beacon(mm:MapModifier):
 	var b : PlayerBeacon = beacon_scene.instantiate()
-	
-	var avoid = map_data.get_all_static_objects()
-	var pos := map_data.query_position({ "avoid": avoid, "range": 150 })
-	b.set_position(pos)
-	
+	b.set_position(get_valid_beacon_pos())
+
 	connected_beacon = b
 	mm.add_to_layer("entities", b)
+	
+	b.set_player_num(player_num)
+
+func get_valid_beacon_pos() -> Vector2:
+	return map_data.query_position({ "avoid": map_data.get_all_static_objects(), "range": config.min_dist_between_beacons })
+
+func reposition_beacon() -> void:
+	connected_beacon.set_position(get_valid_beacon_pos())

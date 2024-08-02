@@ -22,8 +22,8 @@ func set_player_num(p_num:int):
 	
 	var is_keyboard := GInput.is_keyboard_player(player_num)
 	
-	var frame := 9
-	if is_keyboard: frame = 8
+	var frame := 6
+	if is_keyboard: frame = 5
 	sprite.set_frame(frame)
 	
 	for key in labels:

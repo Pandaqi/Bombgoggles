@@ -4,12 +4,10 @@
 
 [resource]
 texture = ExtResource("1_oq8o5")
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-expand_margin_left = 12.0
-expand_margin_top = 12.0
-expand_margin_right = 12.0
-expand_margin_bottom = 12.0
-modulate_color = Color(1, 0.796548, 0.990137, 1)
+texture_margin_left = 85.0
+texture_margin_top = 85.0
+texture_margin_right = 85.0
+texture_margin_bottom = 85.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+modulate_color = Color(1.15, 1.15, 1.15, 1)

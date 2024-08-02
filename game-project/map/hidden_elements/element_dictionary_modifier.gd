@@ -26,12 +26,11 @@ func regenerate() -> void:
 	
 	# determine types included (and order)
 	# @TODO: for now just fixed basic types, need to figure out what else and how to mix them in while keeping the game balanced
-	var all_types = HiddenElement.HiddenElementType.values()
-	var types : Array[HiddenElement.HiddenElementType] = []
-	for type in all_types:
-		types.append(type as HiddenElement.HiddenElementType)
-	 
-	types.erase(HiddenElement.HiddenElementType.TRAP)
+	var types : Array[HiddenElement.HiddenElementType] = [
+		HiddenElement.HiddenElementType.BOMB, 
+		HiddenElement.HiddenElementType.SPEED,
+		HiddenElement.HiddenElementType.LIFE,
+	]  
 	types.shuffle()
 	elem_dict.types = types
 	

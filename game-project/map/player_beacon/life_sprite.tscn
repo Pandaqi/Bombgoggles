@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://capkc60rekl4n"]
+
+[ext_resource type="Texture2D" uid="uid://d1hbyhc7hnmuy" path="res://game_loop/main/misc.webp" id="1_x51je"]
+
+[node name="Life" type="Node2D"]
+position = Vector2(0, -39)
+scale = Vector2(0.2, 0.2)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_x51je")
+hframes = 8
+frame = 4

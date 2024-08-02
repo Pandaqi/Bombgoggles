@@ -7,11 +7,17 @@ var element_reminders : Array[ElementReminder] = []
 
 @export var config : ConfigTemplate
 
-func reset():
+func reset() -> void:
 	bounds = Rect2()
 	hidden_elements = []
 	element_reminders = []
 	player_beacons = []
+
+func add_hidden_element(e:HiddenElement) -> void:
+	hidden_elements.append(e)
+
+func remove_hidden_element(e:HiddenElement) -> void:
+	hidden_elements.erase(e)
 
 func add_element_reminder(r:ElementReminder) -> void:
 	element_reminders.append(r)
@@ -19,7 +25,7 @@ func add_element_reminder(r:ElementReminder) -> void:
 func add_player_beacon(b:PlayerBeacon) -> void:
 	player_beacons.append(b)
 
-func get_all_static_objects() -> Array[Node2D]:
+func get_all_static_objects() -> Array:
 	return player_beacons.duplicate(false) + element_reminders.duplicate(false)
 
 func is_out_of_bounds(pos:Vector2) -> bool:
@@ -53,8 +59,8 @@ func query_position(params:Dictionary = {}) -> Vector2:
 	
 	return pos
 
-func query_overlaps(pos:Vector2, params:Dictionary = {}) -> Array[Node2D]:
-	var all_elems : Array[Node2D] = []
+func query_overlaps(pos:Vector2, params:Dictionary = {}) -> Array:
+	var all_elems : Array = []
 	if "include" in params: all_elems += params.include
 	if "hidden_elements" in params: all_elems += hidden_elements
 	
@@ -64,8 +70,10 @@ func query_overlaps(pos:Vector2, params:Dictionary = {}) -> Array[Node2D]:
 	
 	var search_range : float = 0.0 if not ("range" in params) else params.range
 	
-	var overlapping_elems : Array[Node2D] = []
+	var overlapping_elems : Array = []
 	for elem in all_elems:
+		if not elem or not is_instance_valid(elem): continue
+		
 		var range_squared := 0.0
 		if elem is HiddenElement: range_squared += config.hidden_element_overlap_range
 		

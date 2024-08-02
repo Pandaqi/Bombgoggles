@@ -32,20 +32,22 @@ func refresh_all_types() -> void:
 	for type in elem_dict.types:
 		var elems_of_type = get_elements_with_type(elems, type)
 		var num = elems_of_type.size()
+		var data = elem_dict.get_data_for_type(type)
 		
-		var min_of_type = ceil(config.bounds_per_type[type].min * base_num * prog_mult)
-		var max_of_type = ceil(config.bounds_per_type[type].max * base_num * prog_mult)
+		var min_of_type = ceil(data.min_num * base_num * prog_mult)
+		var max_of_type = ceil(data.max_num * base_num * prog_mult)
 		if num >= max_of_type: continue
 		
 		while num < min_of_type:
 			add_element_of_type(type)
+			num += 1
 		
 		if randf() <= 0.5:
 			add_element_of_type(type)
 
 func add_element_of_type(tp:HiddenElement.HiddenElementType) -> void:
 	var e : HiddenElement = hidden_element_scene.instantiate()
-	var pos = map_data.query_position({ "avoid": map_data.hidden_elements, "range": 30.0 })
+	var pos = map_data.query_position({ "avoid": map_data.hidden_elements, "range": config.min_dist_between_hidden_elements })
 	e.set_position(pos)
 	add_child(e)
 	e.set_type(tp)
@@ -53,3 +55,6 @@ func add_element_of_type(tp:HiddenElement.HiddenElementType) -> void:
 	
 	if OS.is_debug_build() and config.debug_show_hidden_elements:
 		e.set_visible(true)
+	
+	map_data.add_hidden_element(e)
+	e.died.connect(func(): map_data.remove_hidden_element(e))

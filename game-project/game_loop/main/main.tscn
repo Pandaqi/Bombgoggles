@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://h73dtaf2hvjv"]
+[gd_scene load_steps=37 format=3 uid="uid://h73dtaf2hvjv"]
 
 [ext_resource type="Script" path="res://game_loop/main/camera.gd" id="1_2lnhs"]
 [ext_resource type="Script" path="res://map/map_modifier.gd" id="1_f7uwr"]
@@ -19,9 +19,43 @@
 [ext_resource type="FontFile" uid="uid://d3uqrrralaln4" path="res://ui/fonts/heading.ttf" id="7_twvnq"]
 [ext_resource type="Resource" uid="uid://1ivsxducksat" path="res://players/players_data.tres" id="8_8t3b4"]
 [ext_resource type="PackedScene" uid="uid://cda25ih28co4g" path="res://players/player/player.tscn" id="9_hux87"]
+[ext_resource type="Texture2D" uid="uid://belshgxot58hl" path="res://ui/nine_patch_atlas.tres" id="10_j0d0g"]
+[ext_resource type="Texture2D" uid="uid://w6vmd1h1t3le" path="res://game_loop/main/tutorial.webp" id="11_dkf3q"]
 [ext_resource type="Script" path="res://map/hidden_elements/element_dictionary_modifier.gd" id="11_fhbry"]
 [ext_resource type="Resource" uid="uid://bvgm5opigfy2u" path="res://map/hidden_elements/element_dictionary.tres" id="12_t6orm"]
+[ext_resource type="AudioStream" uid="uid://dxnca2o10dhjt" path="res://game_loop/main/game_start_stop.ogg" id="14_lgrkx"]
+[ext_resource type="Texture2D" uid="uid://d1ty15luyqlsb" path="res://players/players.webp" id="15_27jfu"]
 [ext_resource type="Resource" uid="uid://3sm3rb8i0v2y" path="res://game_loop/main/progression/progression_data.tres" id="18_6aeva"]
+[ext_resource type="PackedScene" uid="uid://cviojn6ftg8yw" path="res://map/element_reminders/element_reminder.tscn" id="20_abfr8"]
+[ext_resource type="PackedScene" uid="uid://bu86oqi8ale8" path="res://map/hidden_elements/hidden_element.tscn" id="22_0m52q"]
+[ext_resource type="Script" path="res://ui/feedback/feedback.gd" id="28_5s0in"]
+
+[sub_resource type="Animation" id="Animation_emxjb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -1200)]
+}
 
 [sub_resource type="Animation" id="Animation_pr4bm"]
 resource_name = "tutorial_popup"
@@ -51,12 +85,22 @@ tracks/1/keys = {
 "values": [Vector2(0, -700), Vector2(0, 100), Vector2(0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_emxjb"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_so2gn"]
+_data = {
+"RESET": SubResource("Animation_emxjb"),
+"tutorial_popup": SubResource("Animation_pr4bm")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1g2pl"]
+atlas = ExtResource("15_27jfu")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="Animation" id="Animation_4d8jq"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:modulate")
+tracks/0/path = NodePath("Control:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -68,20 +112,120 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:position")
+tracks/1/path = NodePath("Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/Back:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, -1200)]
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/Continue:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer2/Stats:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_so2gn"]
+[sub_resource type="Animation" id="Animation_5a302"]
+resource_name = "go_appear"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/Back:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.166667, 0.266667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/Continue:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.266667, 0.366667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.333333, 0.466667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer2/Stats:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1p1i1"]
 _data = {
-"RESET": SubResource("Animation_emxjb"),
-"tutorial_popup": SubResource("Animation_pr4bm")
+"RESET": SubResource("Animation_4d8jq"),
+"go_appear": SubResource("Animation_5a302")
 }
 
 [node name="Main" type="Node2D"]
@@ -90,7 +234,7 @@ script = ExtResource("1_j0vto")
 [node name="PreGame" type="CanvasLayer" parent="."]
 process_mode = 3
 script = ExtResource("2_1mkue")
-config = ExtResource("4_1yixe")
+config = ExtResource("4_lus6n")
 
 [node name="Countdown" type="Control" parent="PreGame"]
 layout_mode = 3
@@ -147,7 +291,8 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -1200.0
-offset_bottom = -1200.0
+offset_right = -128.0
+offset_bottom = -1272.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_gp0gm")
@@ -165,9 +310,19 @@ theme_override_constants/margin_top = 64
 theme_override_constants/margin_right = 64
 theme_override_constants/margin_bottom = 64
 
+[node name="NinePatchRect" type="NinePatchRect" parent="PreGame/Tutorial/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("10_j0d0g")
+patch_margin_left = 85
+patch_margin_top = 85
+patch_margin_right = 85
+patch_margin_bottom = 85
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+
 [node name="TextureRect" type="TextureRect" parent="PreGame/Tutorial/MarginContainer"]
 layout_mode = 2
-texture = ExtResource("4_unrtn")
+texture = ExtResource("11_dkf3q")
 expand_mode = 3
 stretch_mode = 5
 
@@ -183,6 +338,8 @@ config = ExtResource("4_lus6n")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Progression"]
 process_mode = 3
+stream = ExtResource("14_lgrkx")
+volume_db = -9.0
 
 [node name="Timer" type="Timer" parent="Progression"]
 autostart = true
@@ -192,6 +349,115 @@ process_mode = 3
 script = ExtResource("4_lu74i")
 prog_data = ExtResource("18_6aeva")
 
+[node name="Control" type="Control" parent="PostGame"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PostGame/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="NinePatchRect" type="NinePatchRect" parent="PostGame/Control/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("10_j0d0g")
+patch_margin_left = 85
+patch_margin_top = 85
+patch_margin_right = 85
+patch_margin_bottom = 85
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PostGame/Control/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 92
+theme_override_constants/margin_top = 92
+theme_override_constants/margin_right = 92
+theme_override_constants/margin_bottom = 92
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PostGame/Control/MarginContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PostGame/Control/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Back" type="Button" parent="PostGame/Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme = ExtResource("6_pr3nm")
+text = "Back to Menu (ESC)"
+
+[node name="Continue" type="Button" parent="PostGame/Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme = ExtResource("6_pr3nm")
+text = "Play Again (SPACE / ANY)"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PostGame/Control/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 24
+
+[node name="Heading" type="Label" parent="PostGame/Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme = ExtResource("6_pr3nm")
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("7_twvnq")
+theme_override_font_sizes/font_size = 132
+text = "Game Over!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PostGame/Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="WinnerTexture" type="TextureRect" parent="PostGame/Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_1g2pl")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="WinnerLabel" type="Label" parent="PostGame/Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_pr3nm")
+theme_override_font_sizes/font_size = 64
+text = "is the winner!"
+
+[node name="Stats" type="Label" parent="PostGame/Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+theme = ExtResource("6_pr3nm")
+theme_override_font_sizes/font_size = 32
+text = "They found X hidden elements: A bombs"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PostGame"]
+libraries = {
+"": SubResource("AnimationLibrary_1p1i1")
+}
+
 [node name="Camera2D" type="Camera2D" parent="."]
 process_mode = 3
 script = ExtResource("1_2lnhs")
@@ -200,8 +466,10 @@ config = ExtResource("4_lus6n")
 
 [node name="MapModifier" type="Node2D" parent="."]
 script = ExtResource("1_f7uwr")
+config = ExtResource("4_lus6n")
 map_data = ExtResource("2_m64j3")
 elem_dict = ExtResource("12_t6orm")
+element_reminder_scene = ExtResource("20_abfr8")
 
 [node name="MapLayers" type="Node2D" parent="MapModifier"]
 
@@ -214,12 +482,15 @@ centered = false
 [node name="Entities" type="Node2D" parent="MapModifier/MapLayers"]
 y_sort_enabled = true
 
+[node name="Top" type="Node2D" parent="MapModifier/MapLayers"]
+
 [node name="MapElementsSpawner" type="Node2D" parent="MapModifier"]
 script = ExtResource("7_6gwbp")
 map_data = ExtResource("2_m64j3")
 config = ExtResource("4_lus6n")
 elem_dict = ExtResource("12_t6orm")
 prog_data = ExtResource("18_6aeva")
+hidden_element_scene = ExtResource("22_0m52q")
 
 [node name="Timer" type="Timer" parent="MapModifier/MapElementsSpawner"]
 
@@ -228,10 +499,16 @@ script = ExtResource("7_0wsgn")
 players_data = ExtResource("8_8t3b4")
 map_data = ExtResource("2_m64j3")
 player_scene = ExtResource("9_hux87")
+config = ExtResource("4_lus6n")
 
 [node name="ElementDictionaryModifier" type="Node" parent="."]
 script = ExtResource("11_fhbry")
 elem_dict = ExtResource("12_t6orm")
 config = ExtResource("4_lus6n")
 
+[node name="Feedback" type="Node2D" parent="."]
+script = ExtResource("28_5s0in")
+
 [connection signal="timeout" from="Progression/Timer" to="Progression" method="_on_timer_timeout"]
+[connection signal="pressed" from="PostGame/Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/Back" to="PostGame" method="on_back_pressed"]
+[connection signal="pressed" from="PostGame/Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/Continue" to="PostGame" method="on_continue_pressed"]

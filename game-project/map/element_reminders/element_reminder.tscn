@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://cviojn6ftg8yw"]
+
+[ext_resource type="Script" path="res://map/element_reminders/element_reminder.gd" id="1_6qr7n"]
+[ext_resource type="Resource" uid="uid://bvgm5opigfy2u" path="res://map/hidden_elements/element_dictionary.tres" id="2_dy2nt"]
+[ext_resource type="Texture2D" uid="uid://dmo7kajs3uyu8" path="res://map/objects.webp" id="3_2m37i"]
+[ext_resource type="Theme" uid="uid://c0bfo1n4w7tgt" path="res://ui/default_theme.tres" id="4_a5fnj"]
+[ext_resource type="Texture2D" uid="uid://d2u2h5xtoakqx" path="res://ui/goggle_empty.tres" id="5_6waug"]
+[ext_resource type="Texture2D" uid="uid://shs4jwomqdil" path="res://map/hidden_elements/hidden_elements.webp" id="6_8rh45"]
+
+[node name="ElementReminder" type="Node2D"]
+scale = Vector2(2, 2)
+script = ExtResource("1_6qr7n")
+elem_dict = ExtResource("2_dy2nt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -97)
+texture = ExtResource("3_2m37i")
+hframes = 6
+
+[node name="Label" type="Label" parent="Sprite2D"]
+offset_left = -89.0
+offset_top = -21.0
+offset_right = 85.0
+offset_bottom = 52.0
+theme = ExtResource("4_a5fnj")
+theme_override_constants/line_spacing = -6
+text = "This is an explanation of how this thing works, does it fit nicely?"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Goggle" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(0, -69)
+scale = Vector2(0.33, 0.33)
+texture = ExtResource("5_6waug")
+
+[node name="ElementIcon" type="Sprite2D" parent="Sprite2D/Goggle"]
+scale = Vector2(0.66, 0.66)
+texture = ExtResource("6_8rh45")
+hframes = 6

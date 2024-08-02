@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://bxkf2hkrb8o85"]
+
+[ext_resource type="Script" path="res://map/player_beacon/player_beacon.gd" id="1_2nqnx"]
+[ext_resource type="Resource" uid="uid://bd1s0u8bbs8bk" path="res://game_loop/globals/default_config.tres" id="2_mi1m7"]
+[ext_resource type="Texture2D" uid="uid://dmo7kajs3uyu8" path="res://map/objects.webp" id="2_pfv8w"]
+[ext_resource type="PackedScene" uid="uid://capkc60rekl4n" path="res://map/player_beacon/life_sprite.tscn" id="3_im1f7"]
+[ext_resource type="Texture2D" uid="uid://d1ty15luyqlsb" path="res://players/players.webp" id="3_uks8i"]
+
+[node name="PlayerBeacon" type="Node2D"]
+scale = Vector2(2, 2)
+script = ExtResource("1_2nqnx")
+config = ExtResource("2_mi1m7")
+life_sprite = ExtResource("3_im1f7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -106)
+texture = ExtResource("2_pfv8w")
+hframes = 6
+frame = 1
+
+[node name="PlayerIcon" type="Sprite2D" parent="."]
+position = Vector2(0, -200)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("3_uks8i")
+hframes = 8
+
+[node name="Lives" type="Node2D" parent="."]
+position = Vector2(0, -40)

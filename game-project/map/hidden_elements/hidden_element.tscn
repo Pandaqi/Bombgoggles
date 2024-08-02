@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://bu86oqi8ale8"]
+
+[ext_resource type="Script" path="res://map/hidden_elements/hidden_element.gd" id="1_4iaik"]
+[ext_resource type="Resource" uid="uid://bvgm5opigfy2u" path="res://map/hidden_elements/element_dictionary.tres" id="2_wx6wt"]
+[ext_resource type="Texture2D" uid="uid://shs4jwomqdil" path="res://map/hidden_elements/hidden_elements.webp" id="3_oky1f"]
+
+[node name="HiddenElement" type="Node2D"]
+script = ExtResource("1_4iaik")
+elem_dict = ExtResource("2_wx6wt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -127)
+texture = ExtResource("3_oky1f")
+hframes = 6

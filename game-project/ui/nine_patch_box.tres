@@ -4,11 +4,9 @@
 
 [resource]
 texture = ExtResource("1_pxet6")
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-expand_margin_left = 12.0
-expand_margin_top = 12.0
-expand_margin_right = 12.0
-expand_margin_bottom = 12.0
+texture_margin_left = 85.0
+texture_margin_top = 85.0
+texture_margin_right = 85.0
+texture_margin_bottom = 85.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2

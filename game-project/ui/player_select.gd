@@ -12,7 +12,7 @@ class_name PlayerSelect extends Control
 var active := true
 var player_num := -1
 var is_ready := false
-var player_spritesheet := preload("res://game_loop/main/misc.webp")
+var player_spritesheet := preload("res://players/players.webp")
 
 signal readied_up()
 
@@ -22,7 +22,7 @@ func init(num:int):
 	
 	ready_label.set_visible(false)
 	
-	var region = Rect2(num * 512, 512, 512, 512)
+	var region = Rect2(num * 256, 0, 256, 256)
 	var a = AtlasTexture.new()
 	a.atlas = player_spritesheet
 	a.region = region

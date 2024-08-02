@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://cvrum2tkoht3o"]
+
+[ext_resource type="Texture2D" uid="uid://d2u2h5xtoakqx" path="res://ui/goggle_empty.tres" id="1_7w8ws"]
+[ext_resource type="Script" path="res://players/goggle.gd" id="1_i17q2"]
+[ext_resource type="Texture2D" uid="uid://cbtxbbjhwq2l1" path="res://ui/goggle_full.tres" id="2_gwoq1"]
+[ext_resource type="Texture2D" uid="uid://shs4jwomqdil" path="res://map/hidden_elements/hidden_elements.webp" id="3_rffg8"]
+
+[node name="Goggle" type="Node2D"]
+script = ExtResource("1_i17q2")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+value = 50.0
+fill_mode = 3
+texture_under = ExtResource("1_7w8ws")
+texture_progress = ExtResource("2_gwoq1")
+
+[node name="ElementType" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.686275)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("3_rffg8")
+hframes = 6

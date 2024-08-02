@@ -4,6 +4,7 @@ class_name Progression extends Node
 @export var config : ConfigTemplate
 @onready var audio_player : AudioStreamPlayer = $AudioStreamPlayer
 
+var level_done := false
 signal level_finished()
 
 func activate() -> void:
@@ -19,6 +20,9 @@ func start_level(pm:PlayersModifier) -> void:
 		pm.kill_all()
 
 func end_level(winning_player:Player) -> void:
+	if level_done: return # to prevent acidentally going to game over multiple times when all players die, for example
+	
+	level_done = true
 	get_tree().paused = true
 	audio_player.play()
 	progression_data.winning_player = winning_player

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="HiddenElementData" load_steps=2 format=3 uid="uid://bcuywyh2pjhxc"]
+
+[ext_resource type="Script" path="res://map/hidden_elements/types/hidden_element_data.gd" id="1_10aij"]
+
+[resource]
+script = ExtResource("1_10aij")
+min_num = 0.0
+max_num = 0.0
+frame = 4
+desc = "Shows your current power. Visit your Beacon to recharge."

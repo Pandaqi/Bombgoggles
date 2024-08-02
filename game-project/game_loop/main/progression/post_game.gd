@@ -7,9 +7,8 @@ class_name PostGame extends CanvasLayer
 @export var prog_data : ProgressionData
 
 @onready var anim_player : AnimationPlayer = $AnimationPlayer
-@onready var label_heading : Label = $Control/MarginContainer/MarginContainer/VBoxContainer/Heading
-@onready var label_body : RichTextLabel = $Control/MarginContainer/MarginContainer/VBoxContainer/VBoxContainer/Result
-@onready var continue_button : Button = $Control/MarginContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer/Continue
+@onready var texture_winner : TextureRect = $Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/WinnerTexture
+@onready var label_stats : Label = $Control/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer2/Stats
 
 var active := false
 
@@ -17,13 +16,18 @@ func _ready():
 	set_visible(false)
 
 func activate():
+	# @QOL: a bit longer to see what actually happened and why the game should end
+	await get_tree().create_timer(0.35).timeout
+	
 	set_visible(true)
 	
-	# @TODO: The winner is in prog_data.winning_player
+	var winning_player : Player = prog_data.winning_player
 	
-	# @TODO: set proper results/text/whatever
-	#label_heading.set_text(txt_heading)
-	#label_body.set_text("[center]" + txt_body + "[/center]") 
+	var a: AtlasTexture = texture_winner.texture
+	a.region = Rect2(winning_player.player_num * 256, 0, 256, 256)
+	
+	var stats := "" # @TODO: get these stats somewhere
+	label_stats.set_text(stats)
 	
 	anim_player.play("go_appear")
 	await anim_player.animation_finished
