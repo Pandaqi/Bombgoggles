@@ -47,7 +47,7 @@ func refresh_all_types() -> void:
 
 func add_element_of_type(tp:HiddenElement.HiddenElementType) -> void:
 	var e : HiddenElement = hidden_element_scene.instantiate()
-	var pos = map_data.query_position({ "avoid": map_data.hidden_elements, "range": config.min_dist_between_hidden_elements })
+	var pos = map_data.query_position({ "avoid": map_data.hidden_elements, "range": config.min_dist_between_hidden_elements, "avoid_edge": true })
 	e.set_position(pos)
 	add_child(e)
 	e.set_type(tp)

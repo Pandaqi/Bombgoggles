@@ -10,6 +10,12 @@ class_name ElementDictionary extends Resource
 ]
 @export var data_per_type : Array[HiddenElementData] = []
 
+func battery_included() -> bool:
+	return type_is_in_game(HiddenElement.HiddenElementType.BATTERY)
+
+func treasure_included() -> bool:
+	return type_is_in_game(HiddenElement.HiddenElementType.TREASURE)
+
 func type_is_in_game(tp:HiddenElement.HiddenElementType) -> bool:
 	return types.has(tp)
 

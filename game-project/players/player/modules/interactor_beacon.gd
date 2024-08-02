@@ -14,7 +14,7 @@ func activate(s:ModuleStatus, l:ModuleLives, b:ModuleBattery):
 	battery = b
 	active = true
 
-func on_died() -> void:
+func on_died(p:Player) -> void:
 	active = false
 
 func _process(_dt:float) -> void:

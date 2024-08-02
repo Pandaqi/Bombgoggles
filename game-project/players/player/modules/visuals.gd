@@ -24,13 +24,14 @@ func prepare_goggles() -> void:
 		goggle.set_frame(elem_dict.get_data_for_type(type).frame)
 		goggle.set_color(elem_dict.get_color_for_type(type))
 
-func on_moved() -> void:
+func on_moved(vec:Vector2) -> void:
+	body.flip_h = vec.x >= 0.0
 	anim_player.play("move")
 
 func on_slots_updated(list:Array[float]) -> void:
 	for i in range(list.size()):
 		goggles[i].update(list[i])
 
-func on_died():
+func on_died(p:Player) -> void:
 	goggles_container.set_visible(false)
 	body.modulate.a = 0.45

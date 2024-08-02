@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bsxx1embl2y04"]
+
+[ext_resource type="Texture2D" uid="uid://d1hbyhc7hnmuy" path="res://game_loop/main/misc.webp" id="1_v8xj8"]
+
+[node name="Treasure" type="Node2D"]
+scale = Vector2(0.16, 0.16)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_v8xj8")
+hframes = 8
+frame = 7

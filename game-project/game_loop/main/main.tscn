@@ -11,7 +11,6 @@
 [ext_resource type="Script" path="res://game_loop/main/progression/tutorial.gd" id="4_gp0gm"]
 [ext_resource type="Script" path="res://game_loop/main/progression/post_game.gd" id="4_lu74i"]
 [ext_resource type="Resource" uid="uid://bd1s0u8bbs8bk" path="res://game_loop/globals/default_config.tres" id="4_lus6n"]
-[ext_resource type="Texture2D" uid="uid://dj4pitryvi6el" path="res://icon.svg" id="4_unrtn"]
 [ext_resource type="AudioStream" uid="uid://blvc8osivw8ej" path="res://game_loop/main/progression/countdown_tick.ogg" id="5_jq6ps"]
 [ext_resource type="Theme" uid="uid://c0bfo1n4w7tgt" path="res://ui/default_theme.tres" id="6_pr3nm"]
 [ext_resource type="Script" path="res://players/players_modifier.gd" id="7_0wsgn"]
@@ -27,6 +26,7 @@
 [ext_resource type="Texture2D" uid="uid://d1ty15luyqlsb" path="res://players/players.webp" id="15_27jfu"]
 [ext_resource type="Resource" uid="uid://3sm3rb8i0v2y" path="res://game_loop/main/progression/progression_data.tres" id="18_6aeva"]
 [ext_resource type="PackedScene" uid="uid://cviojn6ftg8yw" path="res://map/element_reminders/element_reminder.tscn" id="20_abfr8"]
+[ext_resource type="PackedScene" uid="uid://cxumpe42got6q" path="res://map/ground_layers/ground_layer.tscn" id="21_6ibef"]
 [ext_resource type="PackedScene" uid="uid://bu86oqi8ale8" path="res://map/hidden_elements/hidden_element.tscn" id="22_0m52q"]
 [ext_resource type="Script" path="res://ui/feedback/feedback.gd" id="28_5s0in"]
 
@@ -233,6 +233,7 @@ script = ExtResource("1_j0vto")
 
 [node name="PreGame" type="CanvasLayer" parent="."]
 process_mode = 3
+visible = false
 script = ExtResource("2_1mkue")
 config = ExtResource("4_lus6n")
 
@@ -469,15 +470,12 @@ script = ExtResource("1_f7uwr")
 config = ExtResource("4_lus6n")
 map_data = ExtResource("2_m64j3")
 elem_dict = ExtResource("12_t6orm")
+ground_layer_scene = ExtResource("21_6ibef")
 element_reminder_scene = ExtResource("20_abfr8")
 
 [node name="MapLayers" type="Node2D" parent="MapModifier"]
 
-[node name="Floor" type="Sprite2D" parent="MapModifier/MapLayers"]
-modulate = Color(0.194118, 0.474971, 0.0742175, 1)
-scale = Vector2(4.49219, 2.52344)
-texture = ExtResource("4_unrtn")
-centered = false
+[node name="Floor" type="Node2D" parent="MapModifier/MapLayers"]
 
 [node name="Entities" type="Node2D" parent="MapModifier/MapLayers"]
 y_sort_enabled = true

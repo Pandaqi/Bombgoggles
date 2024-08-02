@@ -11,14 +11,16 @@ class_name ModuleInteractorHidden extends Node
 var lives:ModuleLives
 var mover:ModuleMover
 var map_modifier:MapModifier
+var treasure_tracker:ModuleTreasureTracker
 var active := false
 
 var excluded_nodes : Array = []
 
-func activate(s:ModuleStatus, l:ModuleLives, m:ModuleMover, mm:MapModifier):
+func activate(s:ModuleStatus, l:ModuleLives, m:ModuleMover, t:ModuleTreasureTracker, mm:MapModifier):
 	s.died.connect(on_died)
 	lives = l
 	mover = m
+	treasure_tracker = t
 	map_modifier = mm
 	active = true
 
@@ -65,6 +67,12 @@ func interact_with_hidden(node:HiddenElement) -> void:
 	elif node.is_type(HiddenElement.HiddenElementType.TRAP):
 		spring_trap(node, is_inverted, range_affected)
 	
+	elif node.is_type(HiddenElement.HiddenElementType.BATTERY):
+		pass
+	
+	elif node.is_type(HiddenElement.HiddenElementType.TREASURE):
+		treasure_tracker.change_treasure(1)
+	
 	if did_something:
 		node.kill()
 	else:
@@ -74,15 +82,19 @@ func explode(node:HiddenElement, is_inverted:bool, range_affected:float) -> void
 	var include : Array = [entity] if is_inverted else players_data.players
 	var exclude : Array = players_data.players if is_inverted else [entity]
 	
+	# damage players in range
 	var players_affected = map_data.query_overlaps(node.get_position(), { "include": include, "exclude": exclude, "range": range_affected })
 	for player in players_affected:
 		player.lives.change_lives(-1)
 	
+	# cut hole in terrain
+	map_modifier.erase_ground_layer_at(node.get_position(), range_affected)
+	
+	# give visual feedback of explosion
 	var e = explosion_scene.instantiate()
 	e.set_position(node.get_position())
 	map_modifier.add_to_layer("top", e)
 	e.activate(range_affected)
-	
 	GSignalBus.feedback.emit(node.get_position(), "Bomb!")
 
 func spring_trap(node:HiddenElement, is_inverted:bool, range_affected:float):

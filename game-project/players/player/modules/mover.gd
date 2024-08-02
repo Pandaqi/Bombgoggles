@@ -8,12 +8,14 @@ class_name ModuleMover extends Node2D
 @export var map_data : MapData
 @export var speed : float = 0
 
-signal moved()
+signal moved(vec:Vector2)
 signal stopped()
 
 var battery : ModuleBattery
+var lives : ModuleLives
 
-func activate(input:ModuleInput, b:ModuleBattery) -> void:
+func activate(l:ModuleLives, input:ModuleInput, b:ModuleBattery) -> void:
+	lives = l
 	battery = b
 	change_speed(config.speed_default)
 	input.movement_vector_update.connect(on_movement)
@@ -41,8 +43,18 @@ func on_movement(vec:Vector2, dt:float) -> void:
 		stopped.emit()
 		return
 	
-	var new_pos = entity.get_position() + vec * speed * dt
+	var final_move_vec := vec * speed * dt
+	var new_pos := entity.get_position() + final_move_vec
 	if map_data.is_out_of_bounds(new_pos): return
 	entity.set_position(new_pos)
-	moved.emit()
+	moved.emit(final_move_vec)
 	particles.set_emitting(true)
+	
+	interact_with_new_cell(new_pos)
+
+func interact_with_new_cell(new_pos:Vector2):
+	if entity.status.dead: return
+	
+	if map_data.is_hole_at(new_pos) and config.terrain_kill_players_in_holes:
+		GSignalBus.feedback.emit(new_pos, "That's a hole!")
+		lives.drain()

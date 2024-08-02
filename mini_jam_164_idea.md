@@ -30,17 +30,17 @@ The _size_ of the element determines how much you get. (Small slot = small explo
 
 ## What is CRUCIAL before the game is finished?
 
-FIX: Players can now spawn on top of hidden elements (I only check if they're not too close to EACH OTHER, should amend that)
-
 * Singleplayer
   * Either an AI opponent to actually play against
   * Or you need to collect X treasures (before the AI opponent does), without blowing up of course. (Because bombs are always inverted and kill yourself.)
+    * Already implemented treasure tracking and winning, juts need to communicate this and make the other adjustments
+    * Create unique TUTORIAL to explain this solo mode (with treasure hunting), display as needed
 
-Create the actual MAP (green, randomly placed leafs, some random decoration)
-* The ground erosion would be a great way to include "constant escalation" (restriction)
-  * It's a shader that gets a list of CENTERS and RADII, then cuts out circles based on that (just draw nothing at those pixels)
-  * There are multiple layers => this creates nice persistence and variety over time
-  * @IDEA: Those bottom layers that get revealed through bombs are like "terrains" with a special effect? (Some change your movement speed. Some make you lose control. Some can't have hidden elements, or have a LOT of them.)
+Better MAP
+* Place some leaf decorations and stuff
+* Actually use the eroded layers
+  * Like "terrains" with a special effect? (Some change your movement speed. Some make you lose control. Some can't have hidden elements, or have a LOT of them.)
+  * Those bottom layers _permanently_ reveal things that are within their radius??
 
 Determine included elements/mechanics more smartly:
 * To get Battery in there, but not on your first game.
@@ -50,10 +50,12 @@ Determine included elements/mechanics more smartly:
 
 FINETUNE:
 * Radii (small, medium, large) of bombs (yeah, small is TOO SMALL)
-* Numbers that appear
+* Numbers of hidden elements that appear
+  * Lives shouldn't appear too often, for example, or it's too easy.
 * Escalation over time / player count
 * Slot sensitivity
 
+HANDLE ALL @TODO's IN THE CODE
 
 ## What is PROBABLY NICE?
 

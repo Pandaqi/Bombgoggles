@@ -7,6 +7,7 @@ class_name ConfigTemplate extends Resource
 @export var debug_skip_postgame := false
 @export var debug_instant_gameover := false
 @export var debug_show_hidden_elements := true
+@export var debug_cheap_ground_shaders := true
 
 #
 # MISC
@@ -31,11 +32,14 @@ class_name ConfigTemplate extends Resource
 var map_size_base := Vector2(1280, 720)
 var sprite_size_base := 256.0
 var map_size_scalar := { "min": 3.5, "max": 4.25 }
+var map_def_spawn_dist_from_edge := 200.0
 
 var min_dist_between_reminders := 350.0
 var min_dist_between_hidden_elements := 200.0
 var min_dist_between_beacons := 300.0
-var min_dist_between_players := 350.0
+var min_dist_between_players := 225.0 # also to any hidden elements at spawn
+
+var terrain_kill_players_in_holes := true 
 
 #
 # PROGRESSION
@@ -77,6 +81,11 @@ var min_dist_between_players := 350.0
 @export var speed_default := 450.0
 @export var speed_bounds := { "min": 150.0, "max": 750.0 }
 @export var speed_change_per_trigger := 75
+
+#
+# TREASURE
+#
+@export var treasure_needed_to_win := 5
 
 #
 # BEACONS

@@ -12,7 +12,7 @@ signal battery_charging()
 signal battery_full()
 
 func activate() -> void:
-	active = elem_dict.type_is_in_game(HiddenElement.HiddenElementType.BATTERY)
+	active = elem_dict.battery_included()
 
 func change_power(dp:float) -> void:
 	if not active: return

@@ -19,13 +19,19 @@ func place_players(mm:MapModifier) -> void:
 
 func place_player(player_num:int, mm:MapModifier) -> void:
 	var p : Player = player_scene.instantiate()
-	var start_pos : Vector2 = map_data.query_position({ "avoid": players_data.players, "range": config.min_dist_between_players })
+	
+	var avoid = players_data.players.duplicate(false) + map_data.hidden_elements.duplicate(false)
+	var start_pos : Vector2 = map_data.query_position({ "avoid": avoid, "range": config.min_dist_between_players, "avoid_edge": true })
 	p.set_position(start_pos)
 	players_data.add_player(p)
 	map_modifier.add_to_layer("entities", p)
 	
 	p.init(player_num, mm)
 	p.status.died.connect(on_player_died)
+	p.status.won.connect(on_player_won)
+
+func on_player_won(p:Player) -> void:
+	GSignalBus.game_over.emit(p)
 
 func on_player_died(p:Player) -> void:
 	var players_alive := players_data.get_players_alive()
