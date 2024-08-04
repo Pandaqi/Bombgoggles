@@ -8,3 +8,5 @@ min_num = 1.0
 max_num = 1.0
 frame = 1
 desc = "Gives you more speed."
+desc_inv = "Gives you less speed."
+hide_icon = false

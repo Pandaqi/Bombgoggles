@@ -11,16 +11,20 @@ class_name ModuleInteractorHidden extends Node
 var lives:ModuleLives
 var mover:ModuleMover
 var map_modifier:MapModifier
+var battery:ModuleBattery
 var treasure_tracker:ModuleTreasureTracker
 var active := false
 
 var excluded_nodes : Array = []
 
-func activate(s:ModuleStatus, l:ModuleLives, m:ModuleMover, t:ModuleTreasureTracker, mm:MapModifier):
+signal interacted(obj:HiddenElement)
+
+func activate(s:ModuleStatus, l:ModuleLives, m:ModuleMover, t:ModuleTreasureTracker, b:ModuleBattery, mm:MapModifier):
 	s.died.connect(on_died)
 	lives = l
 	mover = m
 	treasure_tracker = t
+	battery = b
 	map_modifier = mm
 	active = true
 
@@ -44,13 +48,16 @@ func interact_with_hidden(node:HiddenElement) -> void:
 	var range_affected = elem_dict.get_element_range(node.type)
 	range_affected *= prog_data.interpolate(config.prog_interact_range_bounds)
 	
+	var trigger_val_scale := prog_data.interpolate(config.prog_trigger_value_bounds)
+	
 	var did_something := true
 	
 	if node.is_type(HiddenElement.HiddenElementType.BOMB):
 		explode(node, is_inverted, range_affected)
+		if node.paired_node: explode(node.paired_node, is_inverted, range_affected)
 	
 	elif node.is_type(HiddenElement.HiddenElementType.SPEED):
-		var speed_change := config.speed_change_per_trigger
+		var speed_change := config.speed_change_per_trigger * trigger_val_scale
 		var old_speed := mover.speed
 		var new_speed := mover.change_speed(num * speed_change)
 		if abs(old_speed - new_speed) <= 0.03:
@@ -58,6 +65,7 @@ func interact_with_hidden(node:HiddenElement) -> void:
 			did_something = false
 	
 	elif node.is_type(HiddenElement.HiddenElementType.LIFE):
+		var lives_change : int = round(1 * trigger_val_scale)
 		var old_lives := lives.lives
 		var new_lives := lives.change_lives(num)
 		if abs(old_lives - new_lives) <= 0.03:
@@ -68,13 +76,20 @@ func interact_with_hidden(node:HiddenElement) -> void:
 		spring_trap(node, is_inverted, range_affected)
 	
 	elif node.is_type(HiddenElement.HiddenElementType.BATTERY):
-		pass
+		var battery_change_per_trigger := config.battery_change_per_trigger * trigger_val_scale
+		
+		var old_power := battery.get_ratio()
+		var new_power := battery.change_power(num * battery_change_per_trigger)
+		if abs(old_power - new_power) <= 0.03:
+			did_something = false
+			GSignalBus.feedback.emit(node.get_position(), "Already at max!")
 	
 	elif node.is_type(HiddenElement.HiddenElementType.TREASURE):
 		treasure_tracker.change_treasure(1)
 	
 	if did_something:
 		node.kill()
+		interacted.emit(node)
 	else:
 		excluded_nodes.append(node)
 
@@ -104,8 +119,7 @@ func spring_trap(node:HiddenElement, is_inverted:bool, range_affected:float):
 	var players_affected = map_data.query_overlaps(node.get_position(), { "include": include, "exclude": exclude, "range": range_affected })
 	for player in players_affected:
 		player.lives.drain()
-	
-	# @TODO: also instantiate some animation or something => for each player affected, send a signal to visuals to play something?
+		player.mover.yeet()
 
 func _on_timer_timeout() -> void:
 	excluded_nodes = []

@@ -1,8 +1,10 @@
 class_name PlayersData extends Resource
 
 var players : Array[Player] = []
+var single_player := false
 
 func reset() -> void:
+	single_player = false
 	players = []
 
 func count() -> int:

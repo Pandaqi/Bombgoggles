@@ -99,3 +99,9 @@ func is_hole_at(pos:Vector2) -> bool:
 	for g in ground_layers:
 		if not g.is_already_hole_at(pos): return false
 	return true
+
+func get_terrain_type_below(pos:Vector2) -> HiddenElement.HiddenElementType:
+	for g in ground_layers:
+		if g.is_already_hole_at(pos): continue
+		return g.type
+	return HiddenElement.HiddenElementType.NONE

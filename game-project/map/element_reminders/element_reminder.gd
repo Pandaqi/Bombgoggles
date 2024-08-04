@@ -11,6 +11,12 @@ func set_type(tp:HiddenElement.HiddenElementType) -> void:
 	type = tp
 	
 	var data : HiddenElementData = elem_dict.get_data_for_type(type)
-	element_icon.set_frame(data.frame)
-	goggle.modulate = elem_dict.get_color_for_type(type)
-	label.set_text(data.desc)
+	goggle.set_visible(not data.hide_icon)
+	if not data.hide_icon:
+		element_icon.set_frame(data.frame)
+		goggle.modulate = elem_dict.get_color_for_type(type)
+	
+	var desc := data.desc
+	var invert := elem_dict.is_inverted(tp)
+	if invert and data.desc_inv: desc = data.desc_inv
+	label.set_text(desc)

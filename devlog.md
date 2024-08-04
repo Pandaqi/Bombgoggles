@@ -92,14 +92,21 @@ However, it's not _really_ needed for a simple game like this. And then physics 
 I briefly considered making this a platformer instead. You'd watch the world from the side as you jump and fly around to reach the place where you think a bomb is. But there just wasn't any easy and elegant way to ensure everything was always reachable/findable, so I discarded it.
 {{% /remark %}}
 
-
 ## The Jam Actually Starts!
 
 Okay, I set my alarm clock early, and checked out the jam's restriction. And I prayed, really prayed, that it would not require massive changes to the skeleton I'd set up.
 
-It was XX
+The restriction was **Constant Escalation**
 
-@TODO
+Okay, not too bad. We can steer there quite easily.
+
+* The game is already constantly escalating by letting bombs explode.
+* Most of the slots also escalate, such as the one adding _more and more and more speed_.
+* All values ramp up over time, to get to that "climax" and ensure the game ends within ~5 minutes.
+* Let's execute my idea of destructible terrain => as you play, the terrain only gets worse and worse, escalating further.
+* Maybe a _battery_ mechanic => as your energy depletes, you get worse (slower movement, haywire slots)
+  * In a similar vein, maybe slots get less accurate as you lose lives => they are the key to the game, so modifying how (well) they work should probably be a main thing
+
 
 ### Getting a Visual
 
@@ -122,6 +129,10 @@ Also, I tend to design games where everything is interconnected with everything,
 ### Enjoying the Restriction
 
 @TODO: About how I applied the restriction, working through that
+
+### Wait, wait about single player?
+
+@TODO
 
 ### Finetuning the Game Loop
 

@@ -3,6 +3,7 @@ class_name GroundLayer extends Sprite2D
 var hole_centers : Array[Vector2] = []
 var hole_radii : Array[float] = []
 var layer_num : int
+var type : HiddenElement.HiddenElementType
 
 @export var config : ConfigTemplate
 @export var elem_dict : ElementDictionary
@@ -14,8 +15,10 @@ func init(num:int, size:Vector2) -> void:
 	layer_num = num
 	
 	var color := TOP_LAYER
+	type = HiddenElement.HiddenElementType.NONE
+	
 	if num > 0:
-		var type := elem_dict.types[num-1]
+		type = elem_dict.types[num-1]
 		color = elem_dict.get_color_for_type(type)
 	
 	var cheap_shaders := OS.is_debug_build() and config.debug_cheap_ground_shaders

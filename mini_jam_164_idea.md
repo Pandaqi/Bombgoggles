@@ -30,61 +30,63 @@ The _size_ of the element determines how much you get. (Small slot = small explo
 
 ## What is CRUCIAL before the game is finished?
 
-* Singleplayer
-  * Either an AI opponent to actually play against
-  * Or you need to collect X treasures (before the AI opponent does), without blowing up of course. (Because bombs are always inverted and kill yourself.)
-    * Already implemented treasure tracking and winning, juts need to communicate this and make the other adjustments
-    * Create unique TUTORIAL to explain this solo mode (with treasure hunting), display as needed
+TREASURE:
+* Display custom tutorial image to explain this, only shown on single player?
 
-Better MAP
+MAP:
 * Place some leaf decorations and stuff
-* Actually use the eroded layers
-  * Like "terrains" with a special effect? (Some change your movement speed. Some make you lose control. Some can't have hidden elements, or have a LOT of them.)
-  * Those bottom layers _permanently_ reveal things that are within their radius??
 
-Determine included elements/mechanics more smartly:
-* To get Battery in there, but not on your first game.
-* Same with treasure/trap (already have sound effects for those)
-* When/how to introduce inversion (if at all)?
-* (This basically feeds into "random setup per round" system as you play more rounds)
+AI (skeleton):
+* IF num == -1, enable some AI module, disable the player input module
+* Repeat this cycle: pick a direction, walk that way until the timer runs out.
+* Once we're _close to something we can grab_, set that as the destination instead, and keep walking until we get it (or it's gone)
+* REMEMBER: anything that's not inverted is "desirable" to trigger
 
-FINETUNE:
-* Radii (small, medium, large) of bombs (yeah, small is TOO SMALL)
-* Numbers of hidden elements that appear
-  * Lives shouldn't appear too often, for example, or it's too easy.
-* Escalation over time / player count
-* Slot sensitivity
+(On Singleplayer, both normal bombs and inverted bombs would work ... but it does feel like inverted is a better standard?)
+=> Maybe a better rule is that inverted bombs simply hit EVERYONE in range, so it can act like a suicide mission.
 
-HANDLE ALL @TODO's IN THE CODE
 
 ## What is PROBABLY NICE?
 
+* INVERSION:
+  * On repeat plays, turn this on.
+  * Show some extra marker on REMINDERS to help communicate this
+  * (Also an extra marker that shows the element's influence/size)
+
+
+
 * Rules tweaks and testing
-  * TRACK STATS ( + display on game over)
-  * BOMBS COME IN PAIRS
-  * USING YOUR BEACON => EVERYONE ELSE GOES HAYWIRE
   * USING YOUR BEACON => BLAST ROW/COLUMN?
   * BEACON SHOWS DIRECTION (or also gives info in _some way_)
   * FORTNITE SHRINKING CIRCLE (to force escalation and games coming to a close)
-  * SLOTS GET LESS ACCURATE AS YOU LOSE LIVES
-  * GROUND EROSION / STORYTELLING:
-    * Whenever a bomb goes off, some underlying part of the ground/map/level is _revealed_. 
-    * This can tell a story? With scribbles, skeletons, objects scattered around, maybe limbs from a tentacled monster, etcetera?
-    * (Potentially, this part of the map might be _permanently_ revealed, and maybe you can even pick up some of those items.)
+
+* Implemented, need to be tested
   * INCLUDE BATTERY ALWAYS => but display it on the BEACON
+  * USING YOUR BEACON => EVERYONE ELSE GOES HAYWIRE
+  * TRACK STATS ( + display on game over)
+  * SLOTS GET LESS ACCURATE AS YOU LOSE LIVES
+  * BOMBS COME IN PAIRS
+  * TRAP: a "yeet into the air" animation
+  * @IDEA: When standing inside such an area, the slot of that particular color _doesn't work_.
+
+
+PROGRESSION:
+* A "random setup per round" as you play more rounds. (With actual specific curses/bonuses/etcetera)
 
 JUICE:
 * Some movement/walking sounds?
 * Death sprite could get particles and look nicer/more clear
-* Some simple particles/modulate change should show battery empty (and all its corresponding effects) too
+* Some simple particles/modulate change should show battery empty (and all its corresponding effects) too => GRAYSCALE shader
 * That _other_ theme song might be better, if I just cut it shorter?
 * Show inversion + "size" (small/medium/big) of an element on its reminder?
+* Finetune slot sensitivity
 
-STORY:
-* A war that create a world with loads of bombs stuck under the surface (as well as shields and other things)
-* Robots were created and tasked with finding them.
-* But of course, humans soon saw potential for competition and turned it into a sport!
-
+MAP:
+* Actually use the eroded layers
+  * Like "terrains" with a special effect? (Some change your movement speed. Some make you lose control. Some can't have hidden elements, or have a LOT of them.)
+  * Those bottom layers _permanently_ reveal things that are within their radius??
+  * This can tell a story? With scribbles, skeletons, objects scattered around, maybe limbs from a tentacled monster, etcetera?
+  * (Potentially, this part of the map might be _permanently_ revealed, and maybe you can even pick up some of those items.)
 
 How to do **single player?**
 * It spawns another player that is simply controlled by AI.
@@ -101,6 +103,12 @@ How to do **single player?**
     * Bomb = "-1 Life to all within radius" / Bomb Inverted = "-1 Life to you"
     * Just TURN OFF inversion (and other special stuff) on the first attempt/play anyway?
 
+
+## What can I do AFTER sending it in?
+
+* Screenshots
+* Nice itch.io page
+* Marketing image
 
 ## Optional / Niceties
 

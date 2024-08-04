@@ -3,7 +3,7 @@ class_name PlayerBeacon extends Node
 @export var config : ConfigTemplate
 @export var life_sprite : PackedScene
 @export var treasure_sprite : PackedScene
-@onready var sprite : Sprite2D = $Sprite2D
+@onready var sprite : TextureProgressBar = $TextureProgressBar
 @onready var lives_container : Node2D = $Lives
 @onready var treasure_container : Node2D = $Treasures
 @onready var player_icon : Sprite2D = $PlayerIcon
@@ -16,7 +16,7 @@ var treasure_sprites = []
 
 func set_player_num(n:int) -> void:
 	player_icon.set_frame(4 + n)
-	sprite.modulate = config.player_colors[n]
+	sprite.tint_progress = config.player_colors[n]
 
 func revisualize(val:int, arr:Array, scene:PackedScene, cont:Node2D, sprite_size:float) -> void:
 	while arr.size() < val:
@@ -37,3 +37,7 @@ func update_lives(l:int) -> void:
 
 func update_treasure(t:int) -> void:
 	revisualize(t, treasure_sprites, treasure_sprite, treasure_container, treasure_sprite_size)
+
+func update_battery(b:float) -> void:
+	if not config.beacon_shows_battery: return
+	sprite.set_value(b * 100)

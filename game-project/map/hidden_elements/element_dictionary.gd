@@ -1,5 +1,6 @@
 class_name ElementDictionary extends Resource
 
+@export var all_types : Array[HiddenElement.HiddenElementType] = []
 @export var config : ConfigTemplate
 @export var keys := ["red", "green", "blue"]
 @export var inverts := [false, false, false]
@@ -11,7 +12,7 @@ class_name ElementDictionary extends Resource
 @export var data_per_type : Array[HiddenElementData] = []
 
 func battery_included() -> bool:
-	return type_is_in_game(HiddenElement.HiddenElementType.BATTERY)
+	return type_is_in_game(HiddenElement.HiddenElementType.BATTERY) or config.beacon_shows_battery
 
 func treasure_included() -> bool:
 	return type_is_in_game(HiddenElement.HiddenElementType.TREASURE)
@@ -42,7 +43,8 @@ func convert_key_to_type(key:String) -> HiddenElement.HiddenElementType:
 	return types[get_index_of_key(key)]
 
 func get_element_range(tp:HiddenElement.HiddenElementType) -> float:
-	return config.hidden_element_ranges[get_index_of_type(tp)]
+	var scale := get_data_for_type(tp).range_scale
+	return config.hidden_element_ranges[get_index_of_type(tp)] * scale
 
 func get_data_for_type(tp:HiddenElement.HiddenElementType) -> HiddenElementData:
 	return data_per_type[get_index_of_type(tp)]

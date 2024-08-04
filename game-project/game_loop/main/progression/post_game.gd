@@ -26,7 +26,8 @@ func activate():
 	var a: AtlasTexture = texture_winner.texture
 	a.region = Rect2(winning_player.player_num * 256, 0, 256, 256)
 	
-	var stats := "" # @TODO: get these stats somewhere
+	var stats_tracker = winning_player.stats_tracker
+	var stats := "They found " + str(stats_tracker.count_hidden_elements()) + " hidden elements: " + stats_tracker.get_detail_list_as_string()
 	label_stats.set_text(stats)
 	
 	anim_player.play("go_appear")

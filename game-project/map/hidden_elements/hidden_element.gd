@@ -1,6 +1,5 @@
 class_name HiddenElement extends Node2D
 
-# @TODO: should this move to a better place? Such as ElementDictionary resource?
 enum HiddenElementType
 {
 	BOMB,
@@ -8,12 +7,15 @@ enum HiddenElementType
 	LIFE,
 	TRAP,
 	BATTERY,
-	TREASURE
+	TREASURE,
+	BATTERY_EXPLAINER,
+	NONE
 }
 
 @export var elem_dict : ElementDictionary
 
 var type : HiddenElementType
+var paired_node : HiddenElement
 @onready var sprite : Sprite2D = $Sprite2D
 
 signal died()
@@ -25,6 +27,9 @@ func set_type(tp:HiddenElementType):
 
 func is_type(t:HiddenElementType) -> bool:
 	return type == t
+
+func set_paired_node(n:HiddenElement) -> void:
+	paired_node = n
 
 func kill() -> void:
 	self.queue_free()

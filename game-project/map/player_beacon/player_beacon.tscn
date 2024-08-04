@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" path="res://map/player_beacon/player_beacon.gd" id="1_2nqnx"]
 [ext_resource type="Resource" uid="uid://bd1s0u8bbs8bk" path="res://game_loop/globals/default_config.tres" id="2_mi1m7"]
-[ext_resource type="Texture2D" uid="uid://dmo7kajs3uyu8" path="res://map/objects.webp" id="2_pfv8w"]
 [ext_resource type="PackedScene" uid="uid://capkc60rekl4n" path="res://map/player_beacon/life_sprite.tscn" id="3_im1f7"]
 [ext_resource type="Texture2D" uid="uid://d1ty15luyqlsb" path="res://players/players.webp" id="3_uks8i"]
 [ext_resource type="PackedScene" uid="uid://bsxx1embl2y04" path="res://map/player_beacon/treasure_sprite.tscn" id="4_11fg6"]
+[ext_resource type="Texture2D" uid="uid://c4hgnjiwih6mj" path="res://map/player_beacon/player_beacon_frame.tres" id="7_6buoe"]
 
 [node name="PlayerBeacon" type="Node2D"]
 scale = Vector2(2, 2)
@@ -13,12 +13,6 @@ script = ExtResource("1_2nqnx")
 config = ExtResource("2_mi1m7")
 life_sprite = ExtResource("3_im1f7")
 treasure_sprite = ExtResource("4_11fg6")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -106)
-texture = ExtResource("2_pfv8w")
-hframes = 6
-frame = 1
 
 [node name="PlayerIcon" type="Sprite2D" parent="."]
 position = Vector2(0, -200)
@@ -31,3 +25,13 @@ position = Vector2(0, -40)
 
 [node name="Treasures" type="Node2D" parent="."]
 position = Vector2(0, -93)
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+offset_left = -128.0
+offset_top = -236.0
+offset_right = 128.0
+offset_bottom = 20.0
+fill_mode = 3
+texture_under = ExtResource("7_6buoe")
+texture_progress = ExtResource("7_6buoe")
+tint_progress = Color(1, 0.298039, 1, 1)

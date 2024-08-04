@@ -10,10 +10,19 @@ var map_modifier : MapModifier
 func activate(mm:MapModifier) -> void:
 	map_modifier = mm
 	GInput.create_debugging_players()
+	
+	players_data.reset()
+	players_data.single_player = GInput.get_player_count() <= 1
+	
 	place_players(mm)
+	create_ai_opponent_if_needed(mm)
+
+func create_ai_opponent_if_needed(mm:MapModifier) -> void:
+	if not players_data.single_player: return
+	# @TODO: if num -1, enable the AI module (and disable the input module)
+	place_player(-1, mm)
 
 func place_players(mm:MapModifier) -> void:
-	players_data.reset()
 	for i in range(GInput.get_player_count()):
 		place_player(i, mm)
 

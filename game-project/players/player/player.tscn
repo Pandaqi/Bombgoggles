@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://cda25ih28co4g"]
+[gd_scene load_steps=34 format=3 uid="uid://cda25ih28co4g"]
 
 [ext_resource type="Script" path="res://players/player/player.gd" id="1_tayp3"]
 [ext_resource type="Texture2D" uid="uid://d1hbyhc7hnmuy" path="res://game_loop/main/misc.webp" id="2_1t44u"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://players/player/modules/visuals.gd" id="2_rugyc"]
 [ext_resource type="Script" path="res://players/player/modules/mover.gd" id="3_6q5kn"]
 [ext_resource type="Script" path="res://players/player/modules/status.gd" id="3_e3j70"]
+[ext_resource type="Script" path="res://players/player/modules/beacon_manager.gd" id="4_0asbq"]
 [ext_resource type="PackedScene" uid="uid://cvrum2tkoht3o" path="res://players/goggle.tscn" id="4_5gh0s"]
 [ext_resource type="Script" path="res://players/player/modules/input.gd" id="4_6fgi4"]
 [ext_resource type="Resource" uid="uid://b0e6tj3a1ya0l" path="res://map/map_data.tres" id="4_p7mfw"]
@@ -27,6 +28,7 @@
 [ext_resource type="AudioStream" uid="uid://dai4vjxxeyvnh" path="res://players/effects/battery_reverse.ogg" id="24_g4e00"]
 [ext_resource type="Script" path="res://players/player/modules/treasure_tracker.gd" id="26_io2kk"]
 [ext_resource type="AudioStream" uid="uid://0ak1fbndhk3a" path="res://players/effects/treasure.ogg" id="27_o5tye"]
+[ext_resource type="Script" path="res://players/player/modules/stats_tracker.gd" id="29_h723h"]
 
 [sub_resource type="Gradient" id="Gradient_a7qjn"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -99,6 +101,12 @@ script = ExtResource("1_tayp3")
 script = ExtResource("3_e3j70")
 config = ExtResource("8_v6xh1")
 
+[node name="BeaconManager" type="Node" parent="."]
+script = ExtResource("4_0asbq")
+beacon_scene = ExtResource("14_bvm66")
+map_data = ExtResource("4_p7mfw")
+config = ExtResource("8_v6xh1")
+
 [node name="Mover" type="Node2D" parent="."]
 script = ExtResource("3_6q5kn")
 config = ExtResource("8_v6xh1")
@@ -169,6 +177,7 @@ script = ExtResource("4_6fgi4")
 script = ExtResource("14_nqox3")
 config = ExtResource("8_v6xh1")
 map_data = ExtResource("4_p7mfw")
+players_data = ExtResource("14_44p27")
 
 [node name="InteractorHidden" type="Node" parent="."]
 script = ExtResource("6_8brq6")
@@ -184,7 +193,6 @@ autostart = true
 
 [node name="Lives" type="Node2D" parent="."]
 script = ExtResource("7_qslg8")
-beacon_scene = ExtResource("14_bvm66")
 config = ExtResource("8_v6xh1")
 map_data = ExtResource("4_p7mfw")
 
@@ -198,9 +206,14 @@ map_data = ExtResource("4_p7mfw")
 config = ExtResource("8_v6xh1")
 elem_dict = ExtResource("10_ufqhj")
 
+[node name="TimerHaywire" type="Timer" parent="Goggles"]
+one_shot = true
+
 [node name="Battery" type="Node2D" parent="."]
 script = ExtResource("22_rrv52")
 elem_dict = ExtResource("10_ufqhj")
+config = ExtResource("8_v6xh1")
+prog_data = ExtResource("9_fnsab")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Battery"]
 stream = ExtResource("22_bw6n2")
@@ -218,4 +231,8 @@ elem_dict = ExtResource("10_ufqhj")
 stream = ExtResource("27_o5tye")
 max_distance = 5000.0
 
+[node name="StatsTracker" type="Node" parent="."]
+script = ExtResource("29_h723h")
+
 [connection signal="timeout" from="InteractorHidden/Timer" to="InteractorHidden" method="_on_timer_timeout"]
+[connection signal="timeout" from="Goggles/TimerHaywire" to="Goggles" method="_on_timer_haywire_timeout"]

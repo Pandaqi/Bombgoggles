@@ -10,11 +10,17 @@ class_name ModuleVisuals extends Node2D
 	$Body/Goggles/Goggle2
 ]
 
-func activate(num:int, m:ModuleMover, g:ModuleGoggles, s:ModuleStatus) -> void:
+@export var grayscale_shader : ShaderMaterial
+
+func activate(num:int, m:ModuleMover, g:ModuleGoggles, s:ModuleStatus, b:ModuleBattery) -> void:
 	body.set_frame(num)
 	m.moved.connect(on_moved)
 	g.slots_updated.connect(on_slots_updated)
 	s.died.connect(on_died)
+	
+	b.battery_empty.connect(on_battery_empty)
+	b.battery_charging.connect(on_battery_charging)
+	
 	prepare_goggles()
 
 func prepare_goggles() -> void:
@@ -35,3 +41,9 @@ func on_slots_updated(list:Array[float]) -> void:
 func on_died(p:Player) -> void:
 	goggles_container.set_visible(false)
 	body.modulate.a = 0.45
+
+func on_battery_empty() -> void:
+	material = grayscale_shader
+
+func on_battery_charging(val:float) -> void:
+	material = null

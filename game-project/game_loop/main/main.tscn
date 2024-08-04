@@ -503,6 +503,7 @@ config = ExtResource("4_lus6n")
 script = ExtResource("11_fhbry")
 elem_dict = ExtResource("12_t6orm")
 config = ExtResource("4_lus6n")
+players_data = ExtResource("8_8t3b4")
 
 [node name="Feedback" type="Node2D" parent="."]
 script = ExtResource("28_5s0in")

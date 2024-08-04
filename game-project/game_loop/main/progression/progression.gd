@@ -8,7 +8,7 @@ var level_done := false
 signal level_finished()
 
 func activate() -> void:
-	progression_data.reset()
+	progression_data.reset(Time.get_ticks_msec(), config.prog_max_time)
 	GSignalBus.game_over.connect(end_level)
 	
 func start_level(pm:PlayersModifier) -> void:
@@ -29,4 +29,4 @@ func end_level(winning_player:Player) -> void:
 	level_finished.emit()
 
 func _on_timer_timeout() -> void:
-	progression_data.update_time()
+	progression_data.update_time(Time.get_ticks_msec())

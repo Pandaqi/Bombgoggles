@@ -27,7 +27,8 @@ func get_elements_with_type(arr:Array[HiddenElement], type:HiddenElement.HiddenE
 func refresh_all_types() -> void:
 	var elems := map_data.hidden_elements
 	var base_num := config.bounds_per_type_base
-	var prog_mult : float = lerp(config.prog_element_bounds.min, config.prog_element_bounds.max, prog_data.get_ratio())
+	var prog_mult := prog_data.interpolate(config.prog_element_bounds)
+	var player_count_mult := config.prog_element_bounds_player_count[GInput.get_player_count()]
 	
 	for type in elem_dict.types:
 		var elems_of_type = get_elements_with_type(elems, type)
@@ -45,7 +46,7 @@ func refresh_all_types() -> void:
 		if randf() <= 0.5:
 			add_element_of_type(type)
 
-func add_element_of_type(tp:HiddenElement.HiddenElementType) -> void:
+func add_element_of_type(tp:HiddenElement.HiddenElementType, paired_node = null) -> HiddenElement:
 	var e : HiddenElement = hidden_element_scene.instantiate()
 	var pos = map_data.query_position({ "avoid": map_data.hidden_elements, "range": config.min_dist_between_hidden_elements, "avoid_edge": true })
 	e.set_position(pos)
@@ -58,3 +59,11 @@ func add_element_of_type(tp:HiddenElement.HiddenElementType) -> void:
 	
 	map_data.add_hidden_element(e)
 	e.died.connect(func(): map_data.remove_hidden_element(e))
+	
+	if tp == HiddenElement.HiddenElementType.BOMB and config.bombs_come_in_pairs:
+		if not paired_node: 
+			e.set_paired_node( add_element_of_type(tp, e) )
+		else:
+			e.set_paired_node(paired_node)
+	
+	return e

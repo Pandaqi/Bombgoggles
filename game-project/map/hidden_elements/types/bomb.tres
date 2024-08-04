@@ -6,4 +6,7 @@
 script = ExtResource("1_pvfps")
 min_num = 1.0
 max_num = 1.0
+frame = 0
 desc = "Takes 1 life from everyone in range (except you)."
+desc_inv = "Takes 1 life from you (and only you)."
+hide_icon = false
