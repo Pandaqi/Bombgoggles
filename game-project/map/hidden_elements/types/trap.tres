@@ -6,8 +6,10 @@
 script = ExtResource("1_o4m0h")
 min_num = 0.25
 max_num = 0.25
+min_num_abs = -1.0
+max_num_abs = -1.0
 frame = 3
 desc = "Instantly kills those in range (and not you)."
-desc_inv = "Instantly kills you (and only you)."
+desc_inv = "Instantly kills everyone in range (including you)."
 hide_icon = false
-range_scale = 0.4
+range_scale = 0.25

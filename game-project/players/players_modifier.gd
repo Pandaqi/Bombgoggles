@@ -7,20 +7,20 @@ class_name PlayersModifier extends Node
 
 var map_modifier : MapModifier
 
-func activate(mm:MapModifier) -> void:
-	map_modifier = mm
+# @NOTE: we must do this before ANYTHING else, otherwise player count checks (which progression heavily depends on) can be incorrect
+func init() -> void:
 	GInput.create_debugging_players()
-	
 	players_data.reset()
 	players_data.single_player = GInput.get_player_count() <= 1
-	
+
+func activate(mm:MapModifier) -> void:
+	map_modifier = mm
 	place_players(mm)
 	create_ai_opponent_if_needed(mm)
 
 func create_ai_opponent_if_needed(mm:MapModifier) -> void:
 	if not players_data.single_player: return
-	# @TODO: if num -1, enable the AI module (and disable the input module)
-	place_player(-1, mm)
+	place_player(GInput.get_player_count(), mm)
 
 func place_players(mm:MapModifier) -> void:
 	for i in range(GInput.get_player_count()):
@@ -46,12 +46,11 @@ func on_player_died(p:Player) -> void:
 	var players_alive := players_data.get_players_alive()
 	if players_alive.size() > 1: return
 	
-	var winning_player = players_alive.front()
-	
 	# @NOTE: in case everyone has died EXACTLY at the same time, 
 	# the first one to call this function simply gets the victory
-	if players_alive.size() <= 0:
-		winning_player = p
+	var winning_player : Player = p
+	if players_alive.size() > 0:
+		winning_player = players_alive.front()
 	
 	GSignalBus.game_over.emit(winning_player)
 

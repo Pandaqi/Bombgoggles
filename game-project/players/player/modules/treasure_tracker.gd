@@ -17,6 +17,8 @@ func change_treasure(dt:int) -> int:
 	num = clamp(num + dt, 0, 9)
 	treasure_changed.emit(num)
 	
+	GSignalBus.feedback.emit(get_parent().get_feedback_position(), "Treasure!")
+	
 	audio_player.pitch_scale = randf_range(0.9, 1.1)
 	audio_player.play()
 	return num

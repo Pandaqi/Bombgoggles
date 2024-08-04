@@ -8,6 +8,7 @@
 colors = PackedColorArray(1, 0.52549, 0.458824, 1, 1, 1, 1, 0)
 
 [node name="Explosion" type="Node2D"]
+process_mode = 3
 script = ExtResource("1_q5o0c")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]

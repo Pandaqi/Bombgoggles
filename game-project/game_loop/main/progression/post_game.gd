@@ -17,7 +17,7 @@ func _ready():
 
 func activate():
 	# @QOL: a bit longer to see what actually happened and why the game should end
-	await get_tree().create_timer(0.35).timeout
+	await get_tree().create_timer(1.0).timeout
 	
 	set_visible(true)
 	
@@ -27,7 +27,7 @@ func activate():
 	a.region = Rect2(winning_player.player_num * 256, 0, 256, 256)
 	
 	var stats_tracker = winning_player.stats_tracker
-	var stats := "They found " + str(stats_tracker.count_hidden_elements()) + " hidden elements: " + stats_tracker.get_detail_list_as_string()
+	var stats : String = "They found " + str(stats_tracker.count_hidden_elements()) + " hidden elements: " + stats_tracker.get_details_list_as_string()
 	label_stats.set_text(stats)
 	
 	anim_player.play("go_appear")
@@ -56,4 +56,4 @@ func on_continue_pressed():
 
 func on_back_pressed():
 	get_tree().paused = false
-	get_tree().change_scene_to_packed(preload("res://game_loop/input_select/input_select.tscn"))
+	get_tree().change_scene_to_file("res://game_loop/input_select/input_select.tscn")

@@ -38,12 +38,12 @@ func on_slots_updated(list:Array[float]) -> void:
 	for i in range(list.size()):
 		goggles[i].update(list[i])
 
-func on_died(p:Player) -> void:
+func on_died(_p:Player) -> void:
 	goggles_container.set_visible(false)
-	body.modulate.a = 0.45
+	self.modulate.a = 0.25
 
 func on_battery_empty() -> void:
-	material = grayscale_shader
+	body.material = grayscale_shader
 
-func on_battery_charging(val:float) -> void:
-	material = null
+func on_battery_charging(_val:float) -> void:
+	body.material = null

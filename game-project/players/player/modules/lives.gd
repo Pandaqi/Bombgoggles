@@ -23,7 +23,7 @@ func change_lives(dl:int) -> int:
 	
 	if lives != old_lives:
 		var txt := "+ Life!" if dl >= 0 else "- Life!"
-		GSignalBus.feedback.emit(entity.get_position(), txt)
+		GSignalBus.feedback.emit(entity.get_feedback_position(), txt)
 		audio_player.pitch_scale = randf_range(0.9, 1.1)
 		audio_player.play()
 	

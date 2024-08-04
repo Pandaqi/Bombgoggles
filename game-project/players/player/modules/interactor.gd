@@ -7,6 +7,7 @@ class_name ModuleInteractorHidden extends Node
 @export var players_data : PlayersData
 @onready var entity : Player = get_parent()
 @export var explosion_scene : PackedScene
+@export var trap_scene : PackedScene
 
 var lives:ModuleLives
 var mover:ModuleMover
@@ -28,7 +29,7 @@ func activate(s:ModuleStatus, l:ModuleLives, m:ModuleMover, t:ModuleTreasureTrac
 	map_modifier = mm
 	active = true
 
-func on_died() -> void:
+func on_died(_p:Player) -> void:
 	active = false
 
 func _process(_dt:float) -> void:
@@ -40,8 +41,11 @@ func check_if_overlaps_anything() -> void:
 	for node in hidden_overlaps:
 		interact_with_hidden(node)
 
+func is_excluded(node:HiddenElement) -> bool:
+	return excluded_nodes.has(node)
+
 func interact_with_hidden(node:HiddenElement) -> void:
-	if excluded_nodes.has(node): return
+	if is_excluded(node): return
 	
 	var is_inverted := elem_dict.is_inverted(node.type)
 	var num := -1 if is_inverted else 1
@@ -50,6 +54,7 @@ func interact_with_hidden(node:HiddenElement) -> void:
 	
 	var trigger_val_scale := prog_data.interpolate(config.prog_trigger_value_bounds)
 	
+	var node_pos := node.global_position
 	var did_something := true
 	
 	if node.is_type(HiddenElement.HiddenElementType.BOMB):
@@ -61,15 +66,15 @@ func interact_with_hidden(node:HiddenElement) -> void:
 		var old_speed := mover.speed
 		var new_speed := mover.change_speed(num * speed_change)
 		if abs(old_speed - new_speed) <= 0.03:
-			GSignalBus.feedback.emit(node.get_position(), "Already at max!")
+			GSignalBus.feedback.emit(entity.get_feedback_position(), "Already at max!")
 			did_something = false
 	
 	elif node.is_type(HiddenElement.HiddenElementType.LIFE):
 		var lives_change : int = round(1 * trigger_val_scale)
 		var old_lives := lives.lives
-		var new_lives := lives.change_lives(num)
+		var new_lives := lives.change_lives(lives_change)
 		if abs(old_lives - new_lives) <= 0.03:
-			GSignalBus.feedback.emit(node.get_position(), "Already at max!")
+			GSignalBus.feedback.emit(entity.get_feedback_position(), "Already at max!")
 			did_something = false
 	
 	elif node.is_type(HiddenElement.HiddenElementType.TRAP):
@@ -82,7 +87,7 @@ func interact_with_hidden(node:HiddenElement) -> void:
 		var new_power := battery.change_power(num * battery_change_per_trigger)
 		if abs(old_power - new_power) <= 0.03:
 			did_something = false
-			GSignalBus.feedback.emit(node.get_position(), "Already at max!")
+			GSignalBus.feedback.emit(entity.get_feedback_position(), "Already at max!")
 	
 	elif node.is_type(HiddenElement.HiddenElementType.TREASURE):
 		treasure_tracker.change_treasure(1)
@@ -94,9 +99,17 @@ func interact_with_hidden(node:HiddenElement) -> void:
 		excluded_nodes.append(node)
 
 func explode(node:HiddenElement, is_inverted:bool, range_affected:float) -> void:
-	var include : Array = [entity] if is_inverted else players_data.players
-	var exclude : Array = players_data.players if is_inverted else [entity]
+	var include = [entity] if is_inverted else players_data.players
+	var exclude = [] if is_inverted else [entity]
 	
+	# no fun in bot accidentally killing itself early
+	if entity.is_bot() and config.bot_is_immune_to_self_bombs:
+		exclude.append(entity)
+	
+	# this rule is very interesting, but too hard if large swaths of terrain are blown away/the same color
+	if players_data.single_player and config.terrain_deactivates_goggle_of_same_type:
+		range_affected *= config.terrain_deactivates_goggle_radius_decrease
+
 	# damage players in range
 	var players_affected = map_data.query_overlaps(node.get_position(), { "include": include, "exclude": exclude, "range": range_affected })
 	for player in players_affected:
@@ -110,16 +123,23 @@ func explode(node:HiddenElement, is_inverted:bool, range_affected:float) -> void
 	e.set_position(node.get_position())
 	map_modifier.add_to_layer("top", e)
 	e.activate(range_affected)
-	GSignalBus.feedback.emit(node.get_position(), "Bomb!")
+	GSignalBus.feedback.emit(entity.get_feedback_position(), "Bomb!")
 
 func spring_trap(node:HiddenElement, is_inverted:bool, range_affected:float):
-	var include : Array = [entity] if is_inverted else players_data.players
-	var exclude : Array = players_data.players if is_inverted else [entity]
+	var include = players_data.players
+	var exclude = [entity] if (not is_inverted) else []
 	
 	var players_affected = map_data.query_overlaps(node.get_position(), { "include": include, "exclude": exclude, "range": range_affected })
 	for player in players_affected:
 		player.lives.drain()
 		player.mover.yeet()
+	
+	# give visual feedback of trap
+	var e = trap_scene.instantiate()
+	e.set_position(node.get_position())
+	map_modifier.add_to_layer("top", e)
+	e.activate(range_affected)
+	GSignalBus.feedback.emit(entity.get_feedback_position(), "Trap!")
 
 func _on_timer_timeout() -> void:
 	excluded_nodes = []

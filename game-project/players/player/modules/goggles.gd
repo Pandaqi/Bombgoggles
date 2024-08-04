@@ -19,11 +19,18 @@ signal slots_updated(new_vals:Dictionary)
 func activate(b:ModuleBattery, l:ModuleLives) -> void:
 	active = true
 	battery = b
-	battery.battery_empty.connect(func(): set_locked(true))
-	battery.battery_charging.connect(func(): set_locked(false))
+	battery.battery_empty.connect(on_battery_empty)
+	battery.battery_charging.connect(on_battery_charging)
 	
 	lives = l
 
+func on_battery_empty() -> void:
+	active = false
+
+func on_battery_charging(_val:float) -> void:
+	active = true
+
+# @NOTE: unused atm; used to be locked by battery, but that just was confusing
 func set_locked(l:bool) -> void:
 	# @TODO: some particles or permanent animation to signal this is the case
 	locked = l
@@ -43,9 +50,11 @@ func _process(_dt:float) -> void:
 func check_distances() -> void:
 	if locked: return
 	
-	var terrain_type_below := map_data.get_terrain_type_below(entity.position)
+	# @NOTE: this is quite expensive; might want to cache whether positions are in holes or not, but that might be even more expensive ...
+	var terrain_type_below := map_data.get_terrain_type_below(entity.global_position)
 	var elems := map_data.hidden_elements
 	var list : Array[float] = []
+	
 	for i in range(elem_dict.types.size()):
 		var type = elem_dict.types[i]
 		var val := convert_dist_to_ratio( get_dist_to_closest(elems, type) )
@@ -59,14 +68,16 @@ func check_distances() -> void:
 			val = randf()
 		
 		# not active means everything responds with "nothing"
-		if not active:
+		var active_individual := true
+		if config.terrain_deactivates_goggle_of_same_type and terrain_type_below == type:
+			active_individual = false
+		
+		if (not active) or (not active_individual):
 			val = 1.0
 		
 		# locking individual just means the goggle will not move at all from its previous value
+		# @TODO: ended up not using this for anything, as it's confusing
 		var lock_individual := false
-		if config.terrain_locks_goggle_of_same_type and terrain_type_below == type:
-			lock_individual = true
-			
 		if lock_individual:
 			val = slots[i]
 		
@@ -80,7 +91,7 @@ func get_accuracy() -> float:
 	if not config.goggle_accuracy_loss_on_life_loss: return 1.0
 	
 	var bounds = config.goggle_accuracy_bounds
-	var ratio = clamp(lives.lives / config.lives_starting_num, 0.0, 1.0)
+	var ratio = clamp(lives.lives / float(config.lives_starting_num), 0.0, 1.0)
 	return lerp(bounds.min, bounds.max, ratio)
 	
 # 1.0 = as far away as possible, 0.0 = you're literally there

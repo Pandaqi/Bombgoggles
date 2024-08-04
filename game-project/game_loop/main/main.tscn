@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://h73dtaf2hvjv"]
+[gd_scene load_steps=38 format=3 uid="uid://h73dtaf2hvjv"]
 
 [ext_resource type="Script" path="res://game_loop/main/camera.gd" id="1_2lnhs"]
 [ext_resource type="Script" path="res://map/map_modifier.gd" id="1_f7uwr"]
@@ -7,7 +7,6 @@
 [ext_resource type="Script" path="res://game_loop/main/progression/progression.gd" id="2_jii8f"]
 [ext_resource type="Resource" uid="uid://b0e6tj3a1ya0l" path="res://map/map_data.tres" id="2_m64j3"]
 [ext_resource type="Script" path="res://game_loop/main/progression/countdown.gd" id="3_o48rl"]
-[ext_resource type="Script" path="res://game_loop/globals/config_template.gd" id="4_1yixe"]
 [ext_resource type="Script" path="res://game_loop/main/progression/tutorial.gd" id="4_gp0gm"]
 [ext_resource type="Script" path="res://game_loop/main/progression/post_game.gd" id="4_lu74i"]
 [ext_resource type="Resource" uid="uid://bd1s0u8bbs8bk" path="res://game_loop/globals/default_config.tres" id="4_lus6n"]
@@ -21,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://belshgxot58hl" path="res://ui/nine_patch_atlas.tres" id="10_j0d0g"]
 [ext_resource type="Texture2D" uid="uid://w6vmd1h1t3le" path="res://game_loop/main/tutorial.webp" id="11_dkf3q"]
 [ext_resource type="Script" path="res://map/hidden_elements/element_dictionary_modifier.gd" id="11_fhbry"]
+[ext_resource type="Texture2D" uid="uid://c3xrg4mj7hbj8" path="res://game_loop/main/tutorial_singleplayer.webp" id="12_ilr4e"]
 [ext_resource type="Resource" uid="uid://bvgm5opigfy2u" path="res://map/hidden_elements/element_dictionary.tres" id="12_t6orm"]
 [ext_resource type="AudioStream" uid="uid://dxnca2o10dhjt" path="res://game_loop/main/game_start_stop.ogg" id="14_lgrkx"]
 [ext_resource type="Texture2D" uid="uid://d1ty15luyqlsb" path="res://players/players.webp" id="15_27jfu"]
@@ -28,6 +28,7 @@
 [ext_resource type="PackedScene" uid="uid://cviojn6ftg8yw" path="res://map/element_reminders/element_reminder.tscn" id="20_abfr8"]
 [ext_resource type="PackedScene" uid="uid://cxumpe42got6q" path="res://map/ground_layers/ground_layer.tscn" id="21_6ibef"]
 [ext_resource type="PackedScene" uid="uid://bu86oqi8ale8" path="res://map/hidden_elements/hidden_element.tscn" id="22_0m52q"]
+[ext_resource type="PackedScene" uid="uid://dcry2pcuxax2n" path="res://map/decorations/decoration_grass.tscn" id="27_hkvgh"]
 [ext_resource type="Script" path="res://ui/feedback/feedback.gd" id="28_5s0in"]
 
 [sub_resource type="Animation" id="Animation_emxjb"]
@@ -56,6 +57,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector2(0, -1200)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ColorRect:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_pr4bm"]
 resource_name = "tutorial_popup"
@@ -83,6 +96,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector2(0, -700), Vector2(0, 100), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ColorRect:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 0.619608)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_so2gn"]
@@ -233,11 +258,11 @@ script = ExtResource("1_j0vto")
 
 [node name="PreGame" type="CanvasLayer" parent="."]
 process_mode = 3
-visible = false
 script = ExtResource("2_1mkue")
 config = ExtResource("4_lus6n")
 
 [node name="Countdown" type="Control" parent="PreGame"]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -245,7 +270,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_o48rl")
-config = ExtResource("4_1yixe")
+config = ExtResource("4_lus6n")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="PreGame/Countdown"]
 stream = ExtResource("5_jq6ps")
@@ -292,12 +317,23 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -1200.0
-offset_right = -128.0
-offset_bottom = -1272.0
+offset_bottom = -1200.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_gp0gm")
 prog_data = ExtResource("18_6aeva")
+players_data = ExtResource("8_8t3b4")
+multiplayer_texture = ExtResource("11_dkf3q")
+singleplayer_texture = ExtResource("12_ilr4e")
+
+[node name="ColorRect" type="ColorRect" parent="PreGame/Tutorial"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
 
 [node name="MarginContainer" type="MarginContainer" parent="PreGame/Tutorial"]
 layout_mode = 1
@@ -472,6 +508,7 @@ map_data = ExtResource("2_m64j3")
 elem_dict = ExtResource("12_t6orm")
 ground_layer_scene = ExtResource("21_6ibef")
 element_reminder_scene = ExtResource("20_abfr8")
+decoration_scene = ExtResource("27_hkvgh")
 
 [node name="MapLayers" type="Node2D" parent="MapModifier"]
 
@@ -488,6 +525,7 @@ map_data = ExtResource("2_m64j3")
 config = ExtResource("4_lus6n")
 elem_dict = ExtResource("12_t6orm")
 prog_data = ExtResource("18_6aeva")
+players_data = ExtResource("8_8t3b4")
 hidden_element_scene = ExtResource("22_0m52q")
 
 [node name="Timer" type="Timer" parent="MapModifier/MapElementsSpawner"]
@@ -504,6 +542,7 @@ script = ExtResource("11_fhbry")
 elem_dict = ExtResource("12_t6orm")
 config = ExtResource("4_lus6n")
 players_data = ExtResource("8_8t3b4")
+prog_data = ExtResource("18_6aeva")
 
 [node name="Feedback" type="Node2D" parent="."]
 script = ExtResource("28_5s0in")

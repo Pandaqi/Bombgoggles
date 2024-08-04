@@ -8,6 +8,8 @@ extends Node2D
 @onready var post_game : PostGame = $PostGame
 
 func _ready() -> void:
+	players_modifier.init()
+	
 	progression.activate()
 	elem_dict_modifier.activate()
 	map_modifier.activate()

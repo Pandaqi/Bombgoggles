@@ -8,7 +8,7 @@ signal feedback(pos:Vector2, txt:String)
 func _ready():
 	var a = AudioStreamPlayer.new()
 	add_child(a)
-	a.volume_db = -18
+	a.volume_db = -22
 	a.stream = preload("res://game_loop/globals/theme_song.mp3")
 	a.set_process_mode(Node.PROCESS_MODE_ALWAYS)
 	a.play()

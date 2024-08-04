@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cbrc03s152p0"]
+
+[ext_resource type="Shader" path="res://players/player/grayscale_shader.gdshader" id="1_p88fu"]
+
+[resource]
+shader = ExtResource("1_p88fu")

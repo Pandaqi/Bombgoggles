@@ -6,6 +6,8 @@
 script = ExtResource("1_yggeq")
 min_num = 1.0
 max_num = 1.0
+min_num_abs = 1.0
+max_num_abs = 1.0
 frame = 5
 desc = "Collect 5 treasures to win."
 desc_inv = ""

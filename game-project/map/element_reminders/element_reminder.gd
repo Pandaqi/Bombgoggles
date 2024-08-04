@@ -11,8 +11,10 @@ func set_type(tp:HiddenElement.HiddenElementType) -> void:
 	type = tp
 	
 	var data : HiddenElementData = elem_dict.get_data_for_type(type)
-	goggle.set_visible(not data.hide_icon)
+	goggle.set_visible(false)
+
 	if not data.hide_icon:
+		goggle.set_visible(true)
 		element_icon.set_frame(data.frame)
 		goggle.modulate = elem_dict.get_color_for_type(type)
 	

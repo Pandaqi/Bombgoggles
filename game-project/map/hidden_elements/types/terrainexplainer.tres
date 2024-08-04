@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="HiddenElementData" load_steps=2 format=3 uid="uid://b7swswwtrkarb"]
+
+[ext_resource type="Script" path="res://map/hidden_elements/types/hidden_element_data.gd" id="1_7qnrc"]
+
+[resource]
+script = ExtResource("1_7qnrc")
+min_num = 1.0
+max_num = 1.0
+min_num_abs = -1.0
+max_num_abs = -1.0
+frame = 0
+desc = "The floor has layers. Bombs erase them; creating holes is ... bad."
+desc_inv = ""
+hide_icon = true
+range_scale = 1.0

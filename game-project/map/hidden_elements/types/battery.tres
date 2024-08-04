@@ -4,10 +4,12 @@
 
 [resource]
 script = ExtResource("1_10aij")
-min_num = 0.0
-max_num = 0.0
+min_num = 1.0
+max_num = 1.0
+min_num_abs = -1.0
+max_num_abs = -1.0
 frame = 4
 desc = "Recharges your battery."
-desc_inv = "Depletes your battery"
+desc_inv = "Drains your battery."
 hide_icon = false
 range_scale = 1.0

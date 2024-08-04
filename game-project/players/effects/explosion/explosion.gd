@@ -5,7 +5,6 @@ extends Node2D
 
 func activate(radius:float) -> void:
 	particles.emission_sphere_radius = radius
-	particles.lifetime = 0.5
 	particles.set_emitting(true)
 	
 	audio_player.pitch_scale = randf_range(0.9, 1.1)

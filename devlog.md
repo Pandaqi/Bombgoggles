@@ -143,6 +143,26 @@ Also, I tend to design games where everything is interconnected with everything,
 
 @TODO: About the juice => sound fx, particles, tweens, quality-of-life stuff
 
+### A quick playtest
+
+I scraped together a functioning version of the game just in time to quickly let others test it. (It was getting late here, so if I'd been any slower, they all would've gone to bed.)
+
+This revealed the usual flaws (and, fortunately, easy fixes).
+
+* The map was too big, which made it unlikely that players would actually get in each other's way or interact. => **Solution = smaller map**
+* Similarly, I'd introduced this idea of "ranges" (small, medium, big) assigned to the goggles, but this just made things inconsistent and bomb blasts too small to be fun. => **Solution = make all ranges equal, and bigger**
+* Being out of power is just _not fun_. You move really slowly, your slots are locked (which is _confusing_), and now you have to make the looong way back to your beacon.
+  * The idea behind it is to force you to keep moving. You can't linger in one place, because you have to visit your beacon, which has teleport to some random location. Which was a _good idea_, but it needs a better execution.
+  * **Solution 1 = You keep your speed, and your slots simply go empty.** Empty slots is a much clearer indicator that your goggles aren't working.
+  * **Solution 2 = You lose a life.** This _forces_ players to always be headed to their beacon before battery runs out. It also makes plays riskier and games tighter.
+  * (Of course, I'll need to make your battery take longer to deplete, otherwise you can't move anywhere!)
+* Sometimes, you clearly hit your beacon (or an element) but it just didn't activate, because the collision check was just too narrow => **Solution = increase range for overlap with elements/beacons**.
+* The rules about terrain destruction and holes are hard to grasp without explanation. => **Solution = add an extra gravestone that succinctly explains how this works.** 
+* I'd created some nice shaders to give the map rough edges and variation ... but they take 5+ seconds to load, which is a delay we really don't want. => **Solution = ditch duplicating the shader for each layer, just use one instance.**
+
+
+
+
 ## Conclusion
 
 @TODO

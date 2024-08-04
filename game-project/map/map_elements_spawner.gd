@@ -5,6 +5,7 @@ class_name MapElementsSpawner extends Node2D
 @export var config : ConfigTemplate
 @export var elem_dict : ElementDictionary
 @export var prog_data : ProgressionData
+@export var players_data : PlayersData
 
 @export var hidden_element_scene : PackedScene
 
@@ -29,26 +30,32 @@ func refresh_all_types() -> void:
 	var base_num := config.bounds_per_type_base
 	var prog_mult := prog_data.interpolate(config.prog_element_bounds)
 	var player_count_mult := config.prog_element_bounds_player_count[GInput.get_player_count()]
+	var mult := base_num * prog_mult * player_count_mult
 	
 	for type in elem_dict.types:
 		var elems_of_type = get_elements_with_type(elems, type)
 		var num = elems_of_type.size()
 		var data = elem_dict.get_data_for_type(type)
-		
-		var min_of_type = ceil(data.min_num * base_num * prog_mult)
-		var max_of_type = ceil(data.max_num * base_num * prog_mult)
+
+		var max_of_type = ceil(data.max_num * mult)
+		if data.max_num_abs >= 0: max_of_type = data.max_num_abs
 		if num >= max_of_type: continue
+		
+		var min_of_type = ceil(data.min_num * mult)
+		if data.min_num_abs >= 0: min_of_type = data.min_num_abs
 		
 		while num < min_of_type:
 			add_element_of_type(type)
 			num += 1
 		
-		if randf() <= 0.5:
+		if randf() <= 0.5 and num < max_of_type:
 			add_element_of_type(type)
 
 func add_element_of_type(tp:HiddenElement.HiddenElementType, paired_node = null) -> HiddenElement:
 	var e : HiddenElement = hidden_element_scene.instantiate()
-	var pos = map_data.query_position({ "avoid": map_data.hidden_elements, "range": config.min_dist_between_hidden_elements, "avoid_edge": true })
+	var avoid = map_data.hidden_elements.duplicate(false) + players_data.players.duplicate(false)
+	
+	var pos = map_data.query_position({ "avoid": avoid, "range": config.min_dist_between_hidden_elements, "avoid_edge": true })
 	e.set_position(pos)
 	add_child(e)
 	e.set_type(tp)

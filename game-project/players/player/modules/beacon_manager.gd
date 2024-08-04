@@ -34,11 +34,15 @@ func on_lives_changed(new_lives:int) -> void:
 func on_treasure_changed(new_tres:int) -> void:
 	connected_beacon.update_treasure(new_tres)
 
-func on_battery_changed(new_bat:int) -> void:
+func on_battery_changed(new_bat:float) -> void:
 	connected_beacon.update_battery(new_bat)
 
 func reposition_beacon() -> void:
 	connected_beacon.set_position(get_valid_beacon_pos())
 
 func get_valid_beacon_pos() -> Vector2:
-	return map_data.query_position({ "avoid": map_data.get_all_static_objects(), "range": config.min_dist_between_beacons, "avoid_edge": true })
+	var avoid := map_data.get_all_static_objects().duplicate(false) + map_data.hidden_elements
+	return map_data.query_position({ "avoid": avoid, "range": config.min_dist_between_beacons, "avoid_edge": true })
+
+func get_beacon_position() -> Vector2:
+	return connected_beacon.global_position
