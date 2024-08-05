@@ -1,35 +1,10 @@
 # MINI JAM 164
 
-Theme: Destruction
-Limitation: ?
+## Future To-Do
 
-## Controls
+@FEEDBACK:
+* A way to customize the goggles you have.
 
-1-4 players, each one can only move (WASD/GAMEPAD)
-
-## Objective
-
-Last one standing wins. You lose lives by being caught in the bomb blasts of other players; run out of lives and you die.
-
-## Gameplay
-
-Each player is a triangle with 3 slots: small, medium, large. (Also red, green, blue.)
-
-The map has randomly generated hot spots (with important stuff), but they are INVISIBLE.
-
-* Instead, those three slots fill up/drain (like progress bars) depending on your distance to a certain element.
-* When you walk close enough/over the element, you trigger it.
-
-What these slots mean is randomly generated, so I can just display it permanently in the UI. The three possible elements are ...
-
-* BOMBS = these kill everyone within radius (but not the one who set it off)
-* SPEED = these are speed boosts so you can walk faster and faster
-* LIVES = these are extra lives
-
-The _size_ of the element determines how much you get. (Small slot = small explosion, small speed bump, only 0.5 extra life)
-
-
-## What is PROBABLY NICE?
 
 * Rules tweaks and testing
   * USING YOUR BEACON => BLAST ROW/COLUMN?
@@ -62,6 +37,3 @@ MAP:
 
 DISCARDED:
 * I basically discarded the idea of the three elements having different ranges. (I also never actually implemented those for speed/lives/etc, only for ranged things.)
-
-## What can I do AFTER sending it in?
-
